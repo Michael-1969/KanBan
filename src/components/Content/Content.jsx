@@ -1,7 +1,7 @@
 
 import {cardList} from '../../../data.js';
 import Column from "../Column/Column.jsx";
-// import Loader from '../Loader/Loader.jsx';
+
 
 const Content = ({loading}) =>{
     
@@ -18,11 +18,9 @@ const Content = ({loading}) =>{
        // const columns = [...new Set(cardList.map(card => card.status))];
 
     return(
-        <div className="main__block">
-            <div className="main__content">
-                { allColums}
-            </div>
-        </div>
+        <>
+        {allColums}
+        </>
     )
 }
 

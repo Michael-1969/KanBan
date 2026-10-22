@@ -1,4 +1,6 @@
-.card-loader{
+import styled from 'styled-components';
+
+export const SCardLoader = styled.div`
     width: 220px;
     height: 130px;
     background-color: #c3c3c3;
@@ -10,21 +12,20 @@
     padding: 15px 13px 19px;
     row-gap: 10px;
     border: 1px solid black;
-    
-}
 
-.card-loader:not(:last-child){
-    margin-bottom: 20px;
-}
+    &:not(:last-child){
+         margin-bottom: 20px;
+    }
+`;
 
-.card-loader__wrapper{
+export const SCardLoaderWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 20px;
     width: 100%;
-}
+`;
 
-.card-loader__name-task{
-    flex-grow: 1;
-}
+export const SCardLoaderNameTask = styled.div`
+        flex-grow: 1;
+`;

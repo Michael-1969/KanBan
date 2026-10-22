@@ -1,12 +1,11 @@
-import './Loader.css'
+import {SLoader} from './Loader.styled'
 
 const Loader = ({ width = 200, height = 14, marginRight = 0}) =>{
     return (
-        <div
-            className="loader"
+        <SLoader
             style={{ width: width + "px", height: height + "px",marginRight: marginRight + "px" }}
         >
-        </div>
+        </SLoader>
     )
 }
 

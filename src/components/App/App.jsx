@@ -1,5 +1,11 @@
+
+import { ThemeProvider } from 'styled-components';
+import theme from '../Global/them.js';
+import {GlobalStyles} from '../Global/Global.js';
+import SWrapper from '../Global/Wrapper.styled.js';
 import  Header from '../Header/Header.jsx'
-import './App.css'
+
+//import './App.css'
 import Main from '../Main/Main.jsx'
 import { useState,useEffect } from 'react';
 
@@ -10,15 +16,20 @@ function App() {
     useEffect(()=>{
         setTimeout(() =>{
             setLoading(false);
-        },3000);
+        },5000);
     },[]);
     
 
   return (
-      <div className="wrapper">
+    <ThemeProvider theme={theme}>
+    <>
+      <GlobalStyles />
+      <SWrapper>
             <Header />
-            <Main loading={loading}/>
-        </div>
+            {<Main loading={loading}/>}
+        </SWrapper>
+    </>
+    </ThemeProvider>
   )
 }
 

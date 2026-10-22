@@ -1,38 +1,48 @@
-
+import {SColumnCards,
+        SCardsItem,
+        SCard,
+        SCardGroup,
+        SCardTitle,
+        SCardContent,
+        SCardDate,
+        SCardTheme,
+        SCardThemeTopic,
+        SCardBtn,
+} from './Card.styled';
+import { SCommonLink } from "../Global/Global";
 
 function Card({item}){
-    const titleMap = {
-        'Web Design' : '_orange',
-        'Research'   : '_green',
-        'Copywriting' : '_purple'
-
-    }
+    // const titleMap = {
+    //     'Web Design' : '_orange',
+    //     'Research'   : '_green',
+    //     'Copywriting' : '_purple'
+    // }
     const {topic,title,date} = item;
     
-    const className = titleMap[topic] || '';
-    const classes = `card__theme ${className}`;
+    // const className = titleMap[topic] || '';
+    // const classes = `card__theme ${className}`;
     
     return(
-        <div className="cards">
-            <div className="cards__item">
-                <div className="cards__card card">
-                    <div className="card__group">
-                        <div className={classes}>
-                            <p className={className}>{topic}</p>
-                        </div>
-                        <a href="#popBrowse" target="_self">
-                            <div className="card__btn">
+        <SColumnCards>
+            <SCardsItem>
+                <SCard>
+                    <SCardGroup>
+                        <SCardTheme topic={topic}>
+                            <SCardThemeTopic topic={topic}>{topic}</SCardThemeTopic>
+                        </SCardTheme>
+                        <SCommonLink href="#popBrowse" target="_self">
+                            <SCardBtn>
                                 <div></div>
                                 <div></div>
                                 <div></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div className="card__content">
-                        <a href="" target="_blank">
-                            <h3 className="card__title">{title}</h3>
-                        </a>
-                        <div className="card__date">
+                            </SCardBtn>
+                        </SCommonLink>
+                    </SCardGroup>
+                    <SCardContent>
+                        <SCommonLink href="" target="_blank"  rel="noopener">
+                            <SCardTitle>{title}</SCardTitle>
+                        </SCommonLink>
+                        <SCardDate>
                             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                                 <g clipPath="url(#clip0_1_415)">
                                     <path d="M10.5625 2.03125H2.4375C1.7644 2.03125 1.21875 2.5769 1.21875 3.25V10.5625C1.21875 11.2356 1.7644 11.7812 2.4375 11.7812H10.5625C11.2356 11.7812 11.7812 11.2356 11.7812 10.5625V3.25C11.7812 2.5769 11.2356 2.03125 10.5625 2.03125Z" stroke="#94A6BE" strokeWidth="0.8" strokeLinejoin="round" />
@@ -45,11 +55,11 @@ function Card({item}){
                                     </defs>
                             </svg>
                             <p>{date}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        </SCardDate>
+                    </SCardContent>
+                </SCard>
+            </SCardsItem>
+        </SColumnCards>
     );
 }
 export default Card;
