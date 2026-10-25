@@ -1,7 +1,5 @@
 import styled,{ keyframes } from 'styled-components';
 
-
-
 const cardAnimation = keyframes`
     0% {
         height: 0;
@@ -147,3 +145,16 @@ export const SCardBtn = styled.div`
         background-color: #94a6be;
     }
 `;
+
+export const SCommonLink = styled.a`
+    &:focus,
+    &:active {
+        outline: none;
+    }
+   text-decoration: none;
+   cursor: pointer;
+   &:visited {
+    text-decoration: none;
+    cursor: pointer;
+  }
+`

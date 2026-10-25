@@ -11,7 +11,7 @@ export const SCardLoader = styled.div`
     justify-content: stretch;
     padding: 15px 13px 19px;
     row-gap: 10px;
-    border: 1px solid black;
+    border: none;
 
     &:not(:last-child){
          margin-bottom: 20px;

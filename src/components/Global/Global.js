@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import styled from "styled-components";
+
 
 
 export const GlobalStyles = createGlobalStyle`
@@ -120,16 +120,4 @@ ol li {list-style: none;}
  svg *{
    transition-property: fill,stroke;
  }
-`
-export const SCommonLink = styled.a`
-    &:focus,
-    &:active {
-        outline: none;
-    }
-   text-decoration: none;
-   cursor: pointer;
-   &:visited {
-    text-decoration: none;
-    cursor: pointer;
-  }
-`
+`;

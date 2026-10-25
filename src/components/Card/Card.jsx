@@ -8,8 +8,9 @@ import {SColumnCards,
         SCardTheme,
         SCardThemeTopic,
         SCardBtn,
+        SCommonLink,
 } from './Card.styled';
-import { SCommonLink } from "../Global/Global";
+// import { SCommonLink } from "../Global/Global";
 
 function Card({item}){
     // const titleMap = {

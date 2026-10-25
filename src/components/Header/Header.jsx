@@ -1,5 +1,5 @@
 import { useState } from "react"
-import PopUpUserSet from "../popups/PopUpUserSet/PopUpUserSet.jsx";
+// import PopUpUserSet from "../popups/PopUpUserSet/PopUpUserSet.jsx";
 import SContainer from "../Global/Container.styled.js";
 
 import {SHeader,
@@ -10,15 +10,16 @@ import {SHeader,
         SHeaderNav,
         SHeaderBtnMain,
         SHeaderBtnLink,
-        SHeaderUserLink} from '../Header/Header.styled.js';
+        SHeaderUserLink,
+        } from '../Header/Header.styled.js';
 
-
+import PopUpUserSet from "../popups/PopUpUserSet/PopUpUserSet.jsx";
 const Header = () =>{
 
    const [showModal, setShowModal] = useState(false);
 
-    const openModal = () => setShowModal(true);
-    const closeModal = () => setShowModal(false);
+    const toggleModal = () => setShowModal(!showModal);
+    
 
     return(
          <SHeader>
@@ -40,12 +41,24 @@ const Header = () =>{
                                 <SHeaderBtnLink href="#popNewCard">Создать новую задачу</SHeaderBtnLink>
                         </SHeaderBtnMain>
                         
-                        <SHeaderUserLink href="#user-set-target" onClick={openModal}>
+                        <SHeaderUserLink href="#user-set-target" onClick={toggleModal}>
                                             Ivan Ivanov
                         </SHeaderUserLink>
                         {
                         showModal && (
-                            <PopUpUserSet onCloseButtonClick={closeModal}/>
+                            <PopUpUserSet onCloseButtonClick={toggleModal}/>
+                            // <SPopUpUserSet onCloseButtonClick={toggleModal}>
+                            //     <SButtonClose onClick={toggleModal}></SButtonClose>
+                            //         <SPopUpUserSetName>Ivan Ivanov</SPopUpUserSetName>
+                            //             <SPopUpUserSetMail>ivan.ivanov@gmail.com</SPopUpUserSetMail>
+                            //                 <SPopUpUserSetTheme>
+                            //                     <SPopUpUserSetText>Темная тема</SPopUpUserSetText>
+                            //                     <SPopUpUserSetInput name="checkbox" />
+                            //                 </SPopUpUserSetTheme>
+                            //                 <SButtonExit>
+                            //                     <SBtnLink href="#popExit">Выйти</SBtnLink>
+                            //                 </SButtonExit>
+                            // </SPopUpUserSet>
                         )}
                     </SHeaderNav>
                 </SHeaderBlock>

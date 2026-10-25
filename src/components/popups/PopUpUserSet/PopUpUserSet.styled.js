@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { SCommonLink } from "../../Global/Global";
+import { SCommonLink } from "../../Card/Card.styled";
 
 export const SPopUpUserSet = styled.div`
-  display: block;
+  display: display;
   position: absolute;
   top: 61px;
   right: 0;
@@ -16,7 +16,7 @@ export const SPopUpUserSet = styled.div`
   text-align: center;
   z-index: 2;
 
-  &:target{ display: block};
+  /* &:target{ display: block};  */
 `;
 
 export const SButtonClose = styled.button.attrs({ type: "button" })`
