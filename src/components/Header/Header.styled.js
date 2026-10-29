@@ -61,8 +61,21 @@ export const SHeaderBtnMain = styled.button.attrs({ type: "button" })`
   }
 `;
 
-export const SHeaderBtnLink = styled(SCommonLink)`
+// export const SHeaderBtnLink = styled(SCommonLink)`
+//   color: #ffffff;
+// `;
+export const SHeaderBtnSpan = styled.span`
+   margin: 0;
+
+    text-decoration: none;
+    cursor: pointer;
+      &:visited {
+        text-decoration: none;
+        cursor: pointer;
+      }
+
   color: #ffffff;
+
 `;
 
 export const SHeaderUserLink = styled(SCommonLink)`

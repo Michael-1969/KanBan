@@ -1,18 +1,25 @@
-import {SPopNewCard,
-        SPopNewCardContainer} from '../PopNewCard/PopNewCard.styled';
-import Calendar from './Calendar/Calendar';
+import {
+  SPopNewCard,
+  SPopNewCardContainer,
+  SPopNewCardBlock,
+  SPopNewCardContent,
+  SPopNewCardTtl,
+} from "../PopNewCard/PopNewCard.styled";
+import Calendar from "./Calendar/Calendar";
+import { Link } from "react-router-dom";
 
-function PopNewCard(){
-
-    return(
-       <SPopNewCard id="popNewCard">
+function PopNewCard() {
+ 
+  return (
+    <>
+    <SPopNewCard id="popNewCard">
           <SPopNewCardContainer>
-            <div className="pop-new-card__block">
-              <div className="pop-new-card__content">
-                <h3 className="pop-new-card__ttl">Создание задачи</h3>
-                <a href="#" className="pop-new-card__close">
-                  &#10006;
-                </a>
+            <SPopNewCardBlock>
+              <SPopNewCardContent>
+                <SPopNewCardTtl>Создание задачи</SPopNewCardTtl>
+                  <Link to={'/'}className="pop-new-card__close">
+                    &#10006;
+                  </Link>
                 <div className="pop-new-card__wrap">
                   <form
                     className="pop-new-card__form form-new"
@@ -44,7 +51,7 @@ function PopNewCard(){
                       ></textarea>
                     </div>
                   </form>
-                  <Calendar/>
+                  <Calendar />
                 </div>
                 <div className="pop-new-card__categories categories">
                   <p className="categories__p subttl">Категория</p>
@@ -63,10 +70,11 @@ function PopNewCard(){
                 <button className="form-new__create _hover01" id="btnCreate">
                   Создать задачу
                 </button>
-              </div>
-            </div>
+              </SPopNewCardContent>
+            </SPopNewCardBlock>
           </SPopNewCardContainer>
         </SPopNewCard>
-    );
+        </>
+  );
 }
 export default PopNewCard;

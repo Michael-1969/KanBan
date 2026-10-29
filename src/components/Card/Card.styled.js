@@ -1,5 +1,6 @@
 import styled,{ keyframes } from 'styled-components';
 
+
 const cardAnimation = keyframes`
     0% {
         height: 0;
@@ -11,7 +12,7 @@ const cardAnimation = keyframes`
     }
 `;
 
-const titleMap = {
+export const titleMap = {
   'Web Design': {
     backgroundColor: '#FFE4C2',
     color: '#FF6D00'

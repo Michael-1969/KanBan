@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { SCommonLink } from "../../Card/Card.styled";
+// import { SCommonLink } from "../../Card/Card.styled";
 
 export const SPopUpUserSet = styled.div`
-  display: display;
+  display: block;
   position: absolute;
   top: 61px;
   right: 0;
@@ -104,9 +104,15 @@ export const SButtonExit = styled.button.attrs({ type: "button" })`
   }
 `;
 
-export const SBtnLink = styled(SCommonLink)`
+// export const SBtnLink = styled(SCommonLink)`
+//   color: #565eef;
+//   &:hover {
+//     color: #ffffff;
+//   }
+// `
+export const SBtnLink = styled.p`
   color: #565eef;
   &:hover {
     color: #ffffff;
   }
-`
+`;

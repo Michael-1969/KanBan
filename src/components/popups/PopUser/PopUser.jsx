@@ -1,4 +1,3 @@
-
 import { SPopExit,
          SPopExitContainer,
          SPopExitBlock,
@@ -8,6 +7,7 @@ import { SPopExit,
          SPopExitBtnYes,
          SPopExitBtnNo
  } from "./PopUser.styled";
+ import { SLinkNo,SLinkYes} from './PopUser.styled';
 
 const PopUser = () =>{
 
@@ -21,10 +21,12 @@ const PopUser = () =>{
               <SPopExitForm>
                 <SPopExitFormGroup>
                   <SPopExitBtnYes>
-                    <a href="modal/signin.html">Да, выйти</a>{" "}
+                    {/* <a href="modal/signin.html">Да, выйти</a>{" "} */}
+                    <SLinkYes to="/login">Да, выйти</SLinkYes>{" "}
                   </SPopExitBtnYes>
                   <SPopExitBtnNo>
-                    <a href="main.html">Нет, остаться</a>{" "}
+                    {/* <a href="main.html">Нет, остаться</a>{" "} */}
+                     <SLinkNo to="/">Нет, остаться</SLinkNo>{" "}
                   </SPopExitBtnNo>
                 </SPopExitFormGroup>
               </SPopExitForm>

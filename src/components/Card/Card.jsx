@@ -11,6 +11,7 @@ import {SColumnCards,
         SCommonLink,
 } from './Card.styled';
 // import { SCommonLink } from "../Global/Global";
+import { Link } from "react-router-dom";
 
 function Card({item}){
     // const titleMap = {
@@ -18,7 +19,7 @@ function Card({item}){
     //     'Research'   : '_green',
     //     'Copywriting' : '_purple'
     // }
-    const {topic,title,date} = item;
+    const {topic,title,date,id} = item;
     
     // const className = titleMap[topic] || '';
     // const classes = `card__theme ${className}`;
@@ -31,13 +32,13 @@ function Card({item}){
                         <SCardTheme topic={topic}>
                             <SCardThemeTopic topic={topic}>{topic}</SCardThemeTopic>
                         </SCardTheme>
-                        <SCommonLink href="#popBrowse" target="_self">
+                        <Link to={`/card/${id}`} target="_self">
                             <SCardBtn>
                                 <div></div>
                                 <div></div>
                                 <div></div>
                             </SCardBtn>
-                        </SCommonLink>
+                        </Link>
                     </SCardGroup>
                     <SCardContent>
                         <SCommonLink href="" target="_blank"  rel="noopener">
