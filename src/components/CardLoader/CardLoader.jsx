@@ -1,24 +1,9 @@
-import Loader from "../Loader/Loader.jsx";
+import { CardLoading } from "./CardLoader.styled"
 
-import {SCardLoader,
-        SCardLoaderWrapper,
-        SCardLoaderNameTask} from './CardLoader.styled.js'
-
-const CardLoader = () =>{
-
-    return(
-        <SCardLoader>
-            <SCardLoaderWrapper>
-                 <Loader width={100} />
-                 <Loader width={30} />
-            </SCardLoaderWrapper>
-            <SCardLoaderNameTask height={20}>
-                <Loader width={120} />
-            </SCardLoaderNameTask>
-            <Loader width={60} height={13} />
-        </SCardLoader>
-    )
-
+const CardLoader = () => {
+  return (
+    <CardLoading>Данные загружаются</CardLoading>
+  )
 }
 
-export default CardLoader;
+export default CardLoader

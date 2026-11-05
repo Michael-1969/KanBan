@@ -1,50 +1,44 @@
-import styled,{ css } from "styled-components";
-// import { SCommonLink } from "../Global/Global";
-import { SCommonLink } from "../Card/Card.styled";
+import styled from "styled-components";
+import { CommonLink } from "../Card/Card.styled";
 
-export const SHeader = styled.header`
+export const HeaderContainer = styled.header`
   width: 100%;
   margin: 0 auto;
-  background-color: #ffffff; 
+  background-color: #ffffff;
 `;
 
-export const SHeaderBlock = styled.div`
-    height: 70px;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    top: 0;
-    left: 0;
-    padding: 0 10px;
-`;
-export const SHeaderLogo = styled.div`
-  ${props => props.hide && css`
-     display: ${({theme}) => theme.display.dark}; 
-  `}
+export const HeaderBlock = styled.div`
+  height: 70px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  top: 0;
+  left: 0;
+  padding: 0 10px;
 `;
 
-export const SLink = styled.a`
-  text-decoration: none;
-  display: inline-block; 
+export const HeaderLogo = styled.div`
+  width: 85px;
+`;
+export const HeaderLogoDark = styled(HeaderLogo)`
+  display: none;
 `;
 
-export const SLogoImg = styled.img`
-    width: 85px;
-    height: auto;
-    display: block;
+export const HeaderLogoImg = styled.img`
+  width: 85px;
 `;
 
-export const SHeaderNav = styled.nav`
-    max-width: 290px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+export const HeaderNav = styled.nav`
+  max-width: 290px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-export const SHeaderBtnMain = styled.button.attrs({ type: "button" })`
+export const HeaderBtnMain = styled.button`
   width: 178px;
   height: 30px;
   border-radius: 4px;
@@ -56,29 +50,26 @@ export const SHeaderBtnMain = styled.button.attrs({ type: "button" })`
   font-weight: 500;
   margin-right: 20px;
 
+  margin: 0;
   &:hover {
     background-color: #33399b;
   }
 `;
 
-// export const SHeaderBtnLink = styled(SCommonLink)`
-//   color: #ffffff;
-// `;
-export const SHeaderBtnSpan = styled.span`
-   margin: 0;
+export const HeaderBtnLink = styled.p`
+margin: 0;
 
+text-decoration: none;
+  cursor: pointer;
+  &:visited {
     text-decoration: none;
     cursor: pointer;
-      &:visited {
-        text-decoration: none;
-        cursor: pointer;
-      }
+  }
 
   color: #ffffff;
-
 `;
 
-export const SHeaderUserLink = styled(SCommonLink)`
+export const HeaderUserBtn = styled.button`
   border: none;
   background-color: transparent;
   width: 106px;
@@ -90,7 +81,6 @@ export const SHeaderUserLink = styled(SCommonLink)`
   font-size: 14px;
   line-height: 20px;
   color: #565eef;
-
   &::after {
     content: "";
     display: block;
@@ -100,128 +90,130 @@ export const SHeaderUserLink = styled(SCommonLink)`
     border-left: 1.9px solid #565eef;
     border-bottom: 1.9px solid #565eef;
     transform: rotate(-45deg);
-    margin: -5px 0 0 5px;
+    margin: -6px 0 0 5px;
     padding: 0;
   }
-    
-     &:hover{
-       color: #33399b;
-    } 
-
-    &:hover {
-      &::after{
-       border-left-color: #33399b;
-       border-bottom-color: #33399b;
-      }
-    }
+  &:hover {
+    color: #33399b;
+  }
 `;
-///////////////////////////////////////////////////////////////////////////////
-// export const SPopUpUserSet = styled.div`
-//   display: block;
-//   position: absolute;
-//   top: 61px;
-//   right: 0;
-//   width: 213px;
-//   height: 205px;
-//   border-radius: 10px;
-//   border: 0.7px solid rgba(148, 166, 190, 0.4);
-//   background: #fff;
-//   box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
-//   padding: 34px;
-//   text-align: center;
-//   z-index: 2;
 
-//   &:target{ display: block}; 
-// `;
+export const HeaderPopUserBlock = styled.div`
+  display: block;
+  position: absolute;
+  top: 61px;
+  right: 0;
+  width: 213px;
+  height: 205px;
+  border-radius: 10px;
+  border: 0.7px solid rgba(148, 166, 190, 0.4);
+  background: #fff;
+  box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
+  padding: 34px;
+  text-align: center;
+  z-index: 2;
+`;
 
-// export const SButtonClose = styled.button.attrs({ type: "button" })`
-//     position: absolute;
-//     border: none;
-//     top: 10px;
-//     left: 50%;
-//     transform: translateX(-50%);
-//     background-image: url("../../../public/images/close.svg");
-//     background-size: contain; 
-//     background-repeat: no-repeat;
-//     width: 20px;
-//     height: 20px;
-// `;
+export const HeaderPopUserBlockClose = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #94a6be;
+  &:hover {
+    color: #000;
+  }
+`;
 
-// export const SPopUpUserSetName = styled.p`
-//     color: #000;
-//     font-size: 14px;
-//     font-weight: 500;
-//     line-height: 21px;
-//     letter-spacing: -0.14px;
-//     margin-bottom: 4px;
-// `;
+export const PopUserName = styled.p`
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.14px;
+  margin-bottom: 4px;
+`;
 
-// export const SPopUpUserSetMail = styled.p`
-//     color: #94A6BE;
-//     font-size: 14px;
-//     line-height: 21px;
-//     letter-spacing: -0.14px;
-//     margin-bottom: 10px;
-//   `;
+export const PopUserMail = styled.p`
+  color: #94a6be;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: -0.14px;
+  margin-bottom: 10px;
+`;
 
-// export const SPopUpUserSetTheme = styled.div`
-//     display: flex;
-//     align-items: center;
-//     justify-content: space-between;
-//     margin-bottom: 30px;
-// `;
-// export const SPopUpUserSetText = styled.p`
-//     color: #000;
-//     font-size: 14px;
-//     line-height: 21px;
-//     letter-spacing: -0.14px;
-// `;
+// Блок темы
+export const PopUserTheme = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+`;
 
-// export const SPopUpUserSetInput = styled.input.attrs({ type: "checkbox" })`
-//     position: relative;
-//     width: 24px;
-//     height: 13px;
-//     border-radius: 100px;
-//     background: #eaeef6;
-//     outline: none;
-//     appearance: none;
-//     -moz-appearance: none;
-//     -webkit-appearance: none;
-//     cursor: pointer;
+// Текст темы
+export const ThemeText = styled.p`
+  color: #000;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: -0.14px;
+`;
 
-//   &::before {
-//     content: "";
-//     position: absolute;
-//     top: 1px;
-//     left: 1px;
-//     width: 11px;
-//     height: 11px;
-//     border-radius: 50%;
-//     background-color: #94a6be;
-//     transition: 0.5s;
-//   }
+// Кастомный чекбокс
+export const ThemeCheckbox = styled.input.attrs({ type: "checkbox" })`
+  position: relative;
+  width: 24px;
+  height: 13px;
+  border-radius: 100px;
+  background: #eaeef6;
+  outline: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
 
-//   &:checked::before {
-//     left: 12px;
-//   }
-// `;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background-color: #94a6be;
+    transition: 0.5s;
+  }
 
-// export const SButtonExit = styled.button.attrs({ type: "button" })`
-//     width: 72px;
-//     height: 30px;
-//     background: transparent;
-//     color: #565EEF;
-//     border-radius: 4px;
-//     border: 1px solid #565EEF;
-//     &:hover {
-//     background-color: #33399b;
-//     color: #ffffff;
-//   }
-// `;
+  &:checked::before {
+    left: 12px;
+  }
+`;
 
-// export const SBtnLink = styled(SCommonLink)`
-//   color: #565eef;
-//   &:hover {
-//     color: #ffffff;
-//   }
-// `
+export const PopUserBtn = styled.button`
+  width: 72px;
+  height: 30px;
+  background: transparent;
+  color: #565eef;
+  border-radius: 4px;
+  border: 1px solid #565eef;
+  &:hover {
+    background-color: #33399b;
+    color: #ffffff;
+  }
+`;
+
+export const PopUserBtnLink = styled.p`
+margin: 0;
+text-decoration: none;
+  cursor: pointer;
+  &:visited {
+    text-decoration: none;
+    cursor: pointer;
+  }
+  color: #565eef;
+  &:hover {
+    color: #ffffff;
+  }
+`;

@@ -1,5 +1,3 @@
-'use strict';
-
 import axios from "axios";
 
 const USER_URL = "https://wedev-api.sky.pro/api/user";
@@ -20,7 +18,7 @@ export async function loginUser({ login, password }) {
     );
     return data.data.user;
   } catch (error) {
-    throw new Error(error.response.data.error,{ cause: error });
+    throw new Error(error.response.data.error);
   }
 }
 
@@ -41,6 +39,7 @@ export async function registerUser({ login, name, password }) {
     );
     return data.data.user;
   } catch (error) {
-    throw new Error(error.response.data.error,{ cause: error });
+    throw new Error(error.response.data.error);
   }
 }
+

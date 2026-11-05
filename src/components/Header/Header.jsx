@@ -1,56 +1,81 @@
 import { useState } from "react";
-// import PopUpUserSet from "../popups/PopUpUserSet/PopUpUserSet.jsx";
-import SContainer from "../Global/Container.styled.js";
+import {
+  HeaderContainer,
+  HeaderBlock,
+  HeaderLogo,
+  HeaderLogoImg,
+  HeaderLogoDark,
+  HeaderNav,
+  HeaderBtnMain,
+  HeaderBtnLink,
+  HeaderUserBtn,
+  HeaderPopUserBlock,
+  HeaderPopUserBlockClose,
+  PopUserName,
+  PopUserMail,
+  PopUserTheme,
+  ThemeText, ThemeCheckbox, PopUserBtn, PopUserBtnLink
+} from "./Header.styled";
+import { Container } from "../Main/Main.styled";
 import { Link } from "react-router-dom";
 
-import {
-  SHeader,
-  SHeaderBlock,
-  SHeaderLogo,
-  SLogoImg,
-  SLink,
-  SHeaderNav,
-  SHeaderBtnMain,
-  SHeaderBtnSpan,
-  SHeaderUserLink,
-} from "../Header/Header.styled.js";
+function Header() {
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-import PopUpUserSet from "../popups/PopUpUserSet/PopUpUserSet.jsx";
-const Header = () => {
-  const [showModal, setShowModal] = useState(false);
-
-  const toggleModal = () => setShowModal(!showModal);
-
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
+  };
   return (
-    <SHeader>
-      <SContainer>
-        <SHeaderBlock>
-          <SHeaderLogo>
-            <SLink href="" target="_self">
-              <SLogoImg src="images/logo.png" alt="logo" />
-            </SLink>
-          </SHeaderLogo>
-          <SHeaderLogo hide>
-            <SLink href="" target="_self">
-              <SLogoImg src="images/logo_dark.png" alt="logo" />
-            </SLink>
-          </SHeaderLogo>
-
-          <SHeaderNav>
-            <Link to={"/card/add"}> 
-              <SHeaderBtnMain id="btnMainNew">
-                {/* <SHeaderBtnLink href="#popNewCard"> */}
-                <SHeaderBtnSpan>Создать новую задачу</SHeaderBtnSpan>
-              </SHeaderBtnMain>
+    <HeaderContainer>
+      <Container>
+        <HeaderBlock>
+          <HeaderLogo>
+            <a href="" target="_self">
+              <HeaderLogoImg src="images/logo.png" alt="logo" />
+            </a>
+          </HeaderLogo>
+          <HeaderLogoDark>
+            <a href="" target="_self">
+              <HeaderLogoImg src="images/logo_dark.png" alt="logo" />
+            </a>
+          </HeaderLogoDark>
+          <HeaderNav>
+            
+            <Link to="/card/add">
+              <HeaderBtnMain id="btnMainNew">
+                <HeaderBtnLink >
+                  Создать новую задачу
+                </HeaderBtnLink>
+              </HeaderBtnMain>
             </Link>
-            <SHeaderUserLink href="#user-set-target" onClick={toggleModal}>
-              Ivan Ivanov
-            </SHeaderUserLink>
-            {showModal && <PopUpUserSet onCloseButtonClick={toggleModal} />}
-          </SHeaderNav>
-        </SHeaderBlock>
-      </SContainer>
-    </SHeader>
+
+            <HeaderUserBtn onClick={toggleUserMenu}>Ivan Ivanov</HeaderUserBtn>
+
+            {isUserMenuOpen && (
+              <HeaderPopUserBlock>
+                <HeaderPopUserBlockClose onClick={toggleUserMenu}>
+                  ×
+                </HeaderPopUserBlockClose>
+                <PopUserName>Ivan Ivanov</PopUserName>
+                <PopUserMail>ivan.ivanov@gmail.com</PopUserMail>
+                <PopUserTheme>
+                  <ThemeText>Темная тема</ThemeText>
+                  <ThemeCheckbox type="checkbox" name="checkbox" />
+                </PopUserTheme>
+
+                <Link to="/exit">
+                  <PopUserBtn type="button">
+                    <PopUserBtnLink >Выйти</PopUserBtnLink>
+                  </PopUserBtn>
+                </Link>
+                
+              </HeaderPopUserBlock>
+            )}
+          </HeaderNav>
+        </HeaderBlock>
+      </Container>
+    </HeaderContainer>
   );
-};
+}
+
 export default Header;
