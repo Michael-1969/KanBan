@@ -1,5 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
+
 import { useState } from "react";
+import { loginUser, registerUser } from "../../services/auth.js";
+
 import {
   LogWrapper,
   LogBox,
@@ -11,12 +14,10 @@ import {
   LogButton,
 } from "./AuthForm.styled.js";
 
-import { loginUser, registerUser } from "../../services/auth.js";
-
 const AuthForm = ({ isSignUp, setIsAuth }) => {
   const navigate = useNavigate();
 
-   const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     name: '',
     login: '',
     password: '',
@@ -88,22 +89,21 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
       setError (err.message);
     }
   }
-
   
   return (
       <LogWrapper>
       <LogBox>
         <LogTitle>{isSignUp ? "Регистрация" : "Вход"}</LogTitle>
         {error && (
-        <div style={{ 
-          color: 'red', 
-          fontSize: '14px', 
-          textAlign: 'center',
-          marginBottom: '10px'
-        }}>
-          {error}
-        </div>
-      )}
+            <div style={{ 
+              color: 'red', 
+              fontSize: '14px', 
+              textAlign: 'center',
+              marginBottom: '10px'
+            }}>
+              {error}
+          </div>
+        )}
         <LogForm id="form" onSubmit={handleSubmit}>
           <LogInputBox>
             {isSignUp && (

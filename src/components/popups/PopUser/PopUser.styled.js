@@ -1,6 +1,37 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-export const PopExit = styled.div`
+export const SLinkNo = styled(Link)`
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+  color: #33399b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: #ffffff;
+    //border-radius: 4px;
+  }
+`;
+
+export const SLinkYes = styled(Link)`
+  text-decoration: none;
+
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: #33399b;
+  }
+`;
+
+export const SPopExit = styled.div`
   display: block;
   width: 100%;
   height: 100%;
@@ -12,7 +43,7 @@ export const PopExit = styled.div`
   z-index: 6;
 `;
 
-export const PopExitContainer = styled.div`
+export const SPopExitContainer = styled.div`
   width: 100%;
   height: 100%;
   min-height: 100vh;
@@ -24,7 +55,7 @@ export const PopExitContainer = styled.div`
   background: rgba(0, 0, 0, 0.4);
 `;
 
-export const PopExitBlock = styled.div`
+export const SPopExitBlock = styled.div`
   display: block;
   margin: 0 auto;
   background-color: #ffffff;
@@ -36,7 +67,8 @@ export const PopExitBlock = styled.div`
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 `;
 
-export const PopExitTitle = styled.div`
+export const SPopExitTtl = styled.div`
+  display: block;
   & h2 {
     text-align: center;
     font-size: 20px;
@@ -47,16 +79,21 @@ export const PopExitTitle = styled.div`
   }
 `;
 
-export const PopExitForm = styled.form`
-  & div {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+export const SPopExitForm = styled.form.attrs({ id: "formExit", action: "#" })`
+  display: block;
 `;
 
-export const ExitButtonYes = styled.button`
+export const SPopExitFormGroup = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const SPopExitBtnYes = styled.button.attrs({
+  id: "exitYes",
+  type: "button",
+})`
   width: 153px;
   height: 30px;
   background-color: #565eef;
@@ -73,26 +110,26 @@ export const ExitButtonYes = styled.button`
   color: #ffffff;
   margin-right: 10px;
 
-  &:hover {
-    background-color: #33399b;
-  }
+  transition: all 0.5s ease-in-out;
 
-  & a {
-    width: 100%;
-    height: 100%;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  &:hover {
+    background-color: #ffffff;
+    color: #33399b;
+    border-radius: 4px;
+    border: 1px solid #33399b;
   }
 `;
 
-export const ExitButtonNo = styled.button`
+export const SPopExitBtnNo = styled.button.attrs({
+  id: "exitNo",
+  type: "button",
+})`
   width: 153px;
   height: 30px;
   background-color: transparent;
   border-radius: 4px;
-  border: 0.7px solid var(--palette-navy-60, #565eef);
+
+  border: 1px solid #33399b;
   outline: none;
   display: flex;
   align-items: center;
@@ -103,19 +140,12 @@ export const ExitButtonNo = styled.button`
   letter-spacing: -0.14px;
   color: #ffffff;
 
+  transition: all 0.5s ease-in-out;
+
   &:hover {
     background-color: #33399b;
-  }
-
-  & a {
-    width: 100%;
-    height: 100%;
-    color: #565eef;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:hover {
-      color: #ffffff;
-    }
+    color: #ffffff;
+    // border-radius: 4px;
+    border: 1px solid #33399b;
   }
 `;

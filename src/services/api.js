@@ -11,63 +11,64 @@ export async function fetchTasks({ token }) {
     });
     return response.data.tasks;
   } catch (error) {
-    throw new Error(error.message);
+    const err = new Error(error.message);
+    err.cause = error;
+    throw err;
   }
 }
 
 export async function viewTask({ token, _id }) {
-  try {
-    const response = await axios.get(`${API_URL}/${_id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error(error.message);
-  }
-}
-
-export async function updateTask({ token, _id, updatedData }) {
-    try {
-      const response = await axios.put(`${API_URL}/${_id}`, updatedData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": '',
-        },
-      });
-      return response.data.tasks;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  export async function postTask({ token, newTask }) {
-    try {
-      const response = await axios.post(API_URL, newTask, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": '',
-        },
-      });
-      return response.data.tasks;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  export async function deleteTask({ token, _id }) {
-    try {
-      const response = await axios.delete(`${API_URL}/${_id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": '',
-        },
-      });
-      return response.data.tasks;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
   
+   try {
+     const response = await axios.get(`${API_URL}/${_id}`, {
+       headers: {
+         Authorization: `Bearer ${token}`,
+       },
+     });
+     return response.data;
+   } catch (error) {
+     throw new Error(error.message,{ cause: error });
+   }
+ }
+
+ export async function updateTask({ token, _id, updatedData }) {
+     try {
+       const response = await axios.put(`${API_URL}/${_id}`, updatedData, {
+         headers: {
+           Authorization: `Bearer ${token}`,
+           "Content-Type": '',
+         },
+       });
+       return response.data.tasks;
+     } catch (error) {
+             throw new Error(error.message,{ cause: error });
+        } 
+    }
+
+   export async function postTask({ token, newTask }) {
+     try {
+       const response = await axios.post(API_URL, newTask, {
+         headers: {
+           Authorization: `Bearer ${token}`,
+           "Content-Type": '',
+         },
+       });
+       return response.data.tasks;
+     } catch (error) {
+       throw new Error(error.message,{ cause: error });
+     }
+   }
+
+   export async function deleteTask({ token, _id }) {
+     try {
+       const response = await axios.delete(`${API_URL}/${_id}`, {
+         headers: {
+           Authorization: `Bearer ${token}`,
+           "Content-Type": '',
+         },
+       });
+       return response.data.tasks;
+     } catch (error) {
+       throw new Error(error.message,{ cause: error });
+     }
+   }

@@ -46,6 +46,8 @@ export const SPopNewCardContent = styled.div`
   text-align: left;
 `;
 
+
+
 export const SPopNewCardTtl = styled.div`
   color: #000;
   font-size: 20px;

@@ -1,37 +1,19 @@
-import Column from "../Column/Column";
-import CardLoader from "../CardLoader/CardLoader";
-import {
-  MainContainer,
-  Container,
-  MainBlock,
-  MainContent,
-} from "./Main.styled";
+import Content from "../Content/Content.jsx";
+import SContainer from "../Global/Container.styled.js";
+import {SMain,SMainBlock,SMainContent} from './Main.styled.js';
 
-function Main({ loading, tasks, error }) {
 
-  return (
-    <MainContainer>
-      <Container>
-        <MainBlock>
-          <MainContent>
-          {error && (
-            <div style={{ color: 'red', textAlign: 'center', padding: '20px' }}>
-              {error}
-            </div>
-          )}
-            {loading ? (
-              <CardLoader />
-            ) : (
-              ["Без статуса", "Нужно сделать", "В работе", "Тестирование", "Готово",
-              ].map((title, id) => (
-                <Column tasks={tasks} loading={loading} title={title} key={id} />
-              ))
-            )}
-          </MainContent>
-        </MainBlock>
-      </Container>
-    </MainContainer>
-  );
+function Main({ loading, tasks, error }){
+    return(
+        <SMain>
+            <SContainer>
+                <SMainBlock>
+                    <SMainContent>
+                            <Content loading={loading} tasks={tasks} error={error}/>
+                    </SMainContent>
+                </SMainBlock>
+            </SContainer>
+        </SMain>
+    );
 }
-
 export default Main;

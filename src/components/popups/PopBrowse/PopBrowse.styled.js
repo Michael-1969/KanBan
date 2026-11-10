@@ -11,38 +11,38 @@ export const SPopBrowse = styled.div`
   z-index: 7;
 `;
 
-export const PopBrowseContent = styled.div`
+export const SPopBrowseContainer = styled.div`
+    width: 100%;
+    height: 100%;
+     min-height: 100vh;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+     justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+   
+`;
+
+export const SPopBrowseBlock = styled.div`
+display: block;
+  margin: 0 auto;
+  background-color: #ffffff;
+  max-width: 630px;
+  width: 100%;
+  padding: 40px 30px 38px;
+  border-radius: 10px;
+  border: 0.7px solid #d4dbe5;
+  position: relative;
+
+`;
+
+export const SPopBrowseContent = styled.div`
   display: block;
   text-align: left;
 `
 
-export const HiddenCategories = styled.div`
+export const SHiddenCategories = styled.div`
   display: none;
   margin-bottom: 20px;
 `
-
-
-
-// .pop-browse__content {
-//     display: block;
-//     text-align: left;
-//   }   PopBrowseContent
-
-
-//   .pop-browse__content .categories__theme {
-//     opacity: 1;
-//   }
-
-
-
-//   .pop-browse__content .theme-down {
-//     display: none;
-//     margin-bottom: 20px;
-//   }  HiddenCategories
-
-
-
-
-//   .pop-browse__content .theme-top {
-//     display: block;
-//   }

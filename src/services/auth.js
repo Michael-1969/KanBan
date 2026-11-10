@@ -1,15 +1,15 @@
+'use strict';
+
 import axios from "axios";
 
 const USER_URL = "https://wedev-api.sky.pro/api/user";
 
-export async function loginUser({ login, password }) {
+export async function loginUser(userData) {
+  // console.log("userData-1 = ",USER_URL + "/login");
+  // console.log("userData-2 = ",`${USER_URL}/login`);
   try {
     const data = await axios.post(
-      `${USER_URL}/login`,
-      {
-        login,
-        password,
-      },
+     USER_URL + "/login",userData,
       {
         headers: {
           "Content-Type": "",
@@ -18,7 +18,9 @@ export async function loginUser({ login, password }) {
     );
     return data.data.user;
   } catch (error) {
-    throw new Error(error.response.data.error);
+    const err = new Error(error.response.data.error);
+    err.cause = error;
+    throw err;
   }
 }
 
@@ -39,7 +41,8 @@ export async function registerUser({ login, name, password }) {
     );
     return data.data.user;
   } catch (error) {
-    throw new Error(error.response.data.error);
+    const err = new Error(error.response.data.error);
+    err.cause = error;
+    throw err;
   }
 }
-

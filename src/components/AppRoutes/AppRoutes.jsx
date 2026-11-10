@@ -10,22 +10,28 @@ import ViewAndEditCardPage from "../../pages/ViewAndEditCardPage/ViewAndEditCard
 import EditCardPage from "../../pages/EditCardPage/EditCardPage.jsx";
 import PrivateRoute from "../PrivateRoute/PrivateRoute.jsx";
 
-import { useState, useEffect } from "react";
+import { useState} from "react";
 
 function AppRoutes() {
-  const [loading, setLoading] = useState(true);
-  const [isAuth, setIsAuth] = useState(false);
+  // const [loading, setLoading] = useState(true);
+  // const [isAuth, setIsAuth] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
+    const [isAuth, setIsAuth] = useState(() => {
+            const userInfo = localStorage.getItem('userInfo');
+        return !!userInfo;
+      });
+  //const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 3000);
+  // }, []);
 
   return (
     <Routes>
       <Route element={<PrivateRoute isAuth={isAuth} />}>
-        <Route path={"/"} element={<MainPage loading={loading} />}>
+        <Route path={"/"} element={<MainPage />}>
           <Route path={"/exit"} element={<LogOutPage />} />
           <Route path={"/card/add"} element={<CreateNewCardPage />} /> 
           <Route path={"/card/:id"} element={<ViewAndEditCardPage />}>
@@ -34,7 +40,7 @@ function AppRoutes() {
         </Route>
       </Route>
 
-      <Route path={"/register"} element={<SignUpPage />} />
+      <Route path={"/register"} element={<SignUpPage setIsAuth={setIsAuth}/>} />
       <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
 
       <Route path={"/*"} element={<NotFoundPage />} />

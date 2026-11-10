@@ -10,7 +10,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <>
-        <GlobalStyles />
+        <GlobalStyles /> 
         <SWrapper>
           <AppRoutes />
         </SWrapper>
