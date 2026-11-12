@@ -11,13 +11,13 @@ import {
   SBtnLink,
 } from "./PopUpUserSet.styled";
 
-const PopUpUserSet = ({ onCloseButtonClick }) => {
+const PopUpUserSet = ({ref,onCloseButtonClick }) => {
 
   return (
     <SPopUpUserSet>
       <SButtonClose onClick={onCloseButtonClick}></SButtonClose>
-      <SPopUpUserSetName>Ivan Ivanov</SPopUpUserSetName>
-      <SPopUpUserSetMail>ivan.ivanov@gmail.com</SPopUpUserSetMail>
+      <SPopUpUserSetName>{ref.current.name}</SPopUpUserSetName>
+      <SPopUpUserSetMail>{ref.current.login}</SPopUpUserSetMail>
       <SPopUpUserSetTheme>
         <SPopUpUserSetText>Темная тема</SPopUpUserSetText>
         <SPopUpUserSetInput name="checkbox" />

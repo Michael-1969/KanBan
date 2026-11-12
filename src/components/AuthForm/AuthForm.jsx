@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 
-import { useState } from "react";
+import { useState,useContext} from "react";
 import { loginUser, registerUser } from "../../services/auth.js";
+import { AuthContext } from "../../context/ContextAPI";
 
 import {
   LogWrapper,
@@ -14,8 +15,11 @@ import {
   LogButton,
 } from "./AuthForm.styled.js";
 
-const AuthForm = ({ isSignUp, setIsAuth }) => {
+const AuthForm = ({ isSignUp }) => {
   const navigate = useNavigate();
+
+  const {updateUserInfo} = useContext(AuthContext);
+  // console.log("updateUserInfo = ",updateUserInfo);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -81,7 +85,7 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
       : await registerUser ({login: formData.login, password: formData.password, name: formData.name});
 
       if (data) {
-        setIsAuth(true);
+        updateUserInfo(data);
         localStorage.setItem('userInfo', JSON.stringify(data));
         navigate('/');
       }

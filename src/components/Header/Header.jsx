@@ -2,6 +2,7 @@ import { useState } from "react";
 // import PopUpUserSet from "../popups/PopUpUserSet/PopUpUserSet.jsx";
 import SContainer from "../Global/Container.styled.js";
 import { Link } from "react-router-dom";
+import { useRef } from 'react';
 
 import {
   SHeader,
@@ -16,9 +17,11 @@ import {
 } from "../Header/Header.styled.js";
 
 import PopUpUserSet from "../popups/PopUpUserSet/PopUpUserSet.jsx";
+
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
-
+  const userInfoRef = useRef(JSON.parse(localStorage.getItem('userInfo')));
+  
   const toggleModal = () => setShowModal(!showModal);
 
   return (
@@ -30,7 +33,7 @@ const Header = () => {
               <SLogoImg src="images/logo.png" alt="logo" />
             </SLink>
           </SHeaderLogo>
-          <SHeaderLogo hide>
+          <SHeaderLogo>
             <SLink href="" target="_self">
               <SLogoImg src="images/logo_dark.png" alt="logo" />
             </SLink>
@@ -44,9 +47,9 @@ const Header = () => {
               </SHeaderBtnMain>
             </Link>
             <SHeaderUserLink href="#user-set-target" onClick={toggleModal}>
-              Ivan Ivanov
+              {userInfoRef.current.name}
             </SHeaderUserLink>
-            {showModal && <PopUpUserSet onCloseButtonClick={toggleModal} />}
+            {showModal && <PopUpUserSet ref={userInfoRef} onCloseButtonClick={toggleModal} />}
           </SHeaderNav>
         </SHeaderBlock>
       </SContainer>

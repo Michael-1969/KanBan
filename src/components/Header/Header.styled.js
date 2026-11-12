@@ -21,7 +21,7 @@ export const SHeaderBlock = styled.div`
 `;
 export const SHeaderLogo = styled.div`
   ${props => props.hide && css`
-     display: ${({theme}) => theme.display.dark}; 
+ //    display: ${({theme}) => theme.display.dark}; 
   `}
 `;
 

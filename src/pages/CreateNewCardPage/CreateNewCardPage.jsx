@@ -1,8 +1,11 @@
 import { SOverlay } from "../../pages/LogOutPage/LogOutPage.styled";
 import PopNewCard from '../../components/popups/PopNewCard/PopNewCard';
 
-import { postTask } from "../../services/api";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { TaskContext } from "../../context/ContextAPI.js";
+
+// import { postTask } from "../../services/api";
+
 import { useNavigate } from "react-router-dom";
 
 const CreateNewCardPage = () => {
@@ -10,16 +13,19 @@ const CreateNewCardPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");   
   const navigate = useNavigate();
+  const { addTask } = useContext(TaskContext);
+
   const handleCreateTask  = async (newTaskData) => {
     try {
       setLoading(true);
       setError("");
 
-      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-      const token = userInfo?.token;
+      // const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      // const token = userInfo?.token;
 
-      await postTask({ token, newTask: newTaskData });
-
+      // await postTask({ token, newTask: newTaskData });
+      
+      await addTask(newTaskData);
       navigate("/", { replace: true });
      
     } catch (err) {

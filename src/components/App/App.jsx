@@ -5,17 +5,24 @@ import { GlobalStyles } from "../Global/Global.js";
 import SWrapper from "../Global/Wrapper.styled.js";
 import "../App/App.css";
 import AppRoutes from "../AppRoutes/AppRoutes";
+import {AuthProvider,TaskProvider} from '../../context/ContextProvider.jsx';
+
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <>
+      
+      <ThemeProvider theme={theme}>
         <GlobalStyles /> 
-        <SWrapper>
-          <AppRoutes />
-        </SWrapper>
-      </>
-    </ThemeProvider>
+          <AuthProvider>
+              <TaskProvider>
+                  <SWrapper>
+                      <AppRoutes />
+                  </SWrapper>
+              </TaskProvider>
+            </AuthProvider>
+        </ThemeProvider>
+      
+    
   );
 }
 
