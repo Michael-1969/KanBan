@@ -1,161 +1,170 @@
-import styled,{ keyframes } from 'styled-components';
+import styled from "styled-components";
 
 
-const cardAnimation = keyframes`
-    0% {
-        height: 0;
-        opacity: 0;
-    }
-    100% {
-        height: auto;
-        opacity: 1;
-    }
-`;
+export const SDateContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`
 
-export const titleMap = {
-  'Web Design': {
-    backgroundColor: '#FFE4C2',
-    color: '#FF6D00'
-  },
-  'Research': {
-    backgroundColor: '#B4FDD1', 
-    color: '#06B16E'
-  },
-  'Copywriting': {
-    backgroundColor: '#E9D4FF',
-    color: '#9A48F1'
-  }
+export const SDateIcon = styled.svg`
+  width: 13px;
+  height: 13px;
+  fill: "none";
+`
+
+export const SDate = styled.p`
+  margin-left: 6px;
+  font-size: 10px;
+  line-height: 13px;
+  color: var(--text-secondary);
+  letter-spacing: 0.2px;
+`
+
+export const SCardContentContainer = styled.div`
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+`
+
+export const SCardContentLink = styled.a`
+  text-decoration: none;
+  cursor: pointer;
+`
+
+export const SCardTitle = styled.h3`
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+`
+
+export const SCardHeader = styled.header`
+  width: 100%;
+  height: 20px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const categoryBackgroundColors = {
+  "Web Design": "var(--bg-web-design)",
+  "Research": "var(--bg-research)",
+  "Copywriting": "var(--bg-copywriting)",
 };
 
+const categoryColors = {
+  "Web Design": "var(--color-web-design)",
+  "Research": "var(--color-research)",
+  "Copywriting": "var(--color-copywriting)",
+};
 
-export const SColumnCards = styled.div`
-    width: 100%;
-    display: block;
-    position: relative;
-    @media ${({theme}) => theme.media.max1200}{
-        width: 100%;
-        display: flex;
-        overflow-y: auto;
-    }
-`;
+export const SCardLabel = styled.div`
+  width: auto;
+  height: 20px;
+  padding: 5px 14px;
+  border-radius: 18px;
+  background-color: ${({ $topic }) => categoryBackgroundColors[$topic]};
+  color: ${({ $topic }) => categoryColors[$topic]};
+`
 
-export const SCardsItem = styled.div`
-    padding: 5px;
-    animation-name: ${cardAnimation};
-    animation-duration: 500ms;
-    animation-timing-function: linear;
-`;
+export const SCardButton = styled.div`
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 2px;
+`
 
-export const SCard = styled.div`
-   width: 220px;
+export const SCardButtonPoint = styled.div`
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #94A6BE;
+`
+
+export const SCardTopic = styled.p`
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 10px;
+`
+
+export const SCardContainer = styled.div`
+  width: 220px;
+  height: 130px;
+  background-color: var(--bg-secondary);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: stretch;
+  padding: 15px 13px 19px;
+
+  @media screen and (max-width: 1200px) { 
+    width: 220px;
     height: 130px;
-    background-color: #FFFFFF;
+    /* background-color: #FFFFFF; */
+    background-color: var(--bg-secondary);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: stretch;
     padding: 15px 13px 19px;
-
-    @media ${({theme}) => theme.media.max1200}{
-         width: 220px;
-        height: 130px;
-        background-color: #FFFFFF;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: stretch;
-        padding: 15px 13px 19px;
-    }
-`;
-
-export const SCardGroup = styled.div`
-    width: 100%;
-    height: 20px;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-`;
-
-export const SCardTitle = styled.h3`
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 18px;
-    color: #000000;
-    margin-bottom: 10px;
-`;
-
-export const SCardContent = styled.div`
-    height: 64px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-`;
-
-export const SCardDate = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    
-    & svg {
-        width: 13px;
-    }
-    & p {
-        margin-left: 6px;
-        font-size: 10px;
-        line-height: 13px;
-        color: #94a6be;
-        letter-spacing: 0.2px;
-    }
-`;
-
-export const SCardTheme = styled.div`
-    width: auto;
-    height: 20px;
-    padding: 5px 14px;
-    border-radius: 18px;
-
-    background-color: ${props => titleMap[props.topic]?.backgroundColor};
-    color: ${props => titleMap[props.topic]?.color};
-`;
-
-export const SCardThemeTopic = styled.p`
-    font-size: 10px;
-    font-weight: 600;
-    line-height: 10px;
-
-    background-color: ${props => titleMap[props.topic]?.backgroundColor};
-    color: ${props => titleMap[props.topic]?.color};
-`;
-
-export const SCardBtn = styled.div`
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 2px;
-    & div {
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background-color: #94a6be;
-    }
-`;
-
-export const SCommonLink = styled.a`
-    &:focus,
-    &:active {
-        outline: none;
-    }
-   text-decoration: none;
-   cursor: pointer;
-   &:visited {
-    text-decoration: none;
-    cursor: pointer;
   }
+
+  transition: opacity 0.2s ease;
+
+  ${({ $isDragging }) =>
+    $isDragging &&
+    `
+    // opacity: 0.3;
+    opacity: 0;
+    cursor: grabbing;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    // background-color: #ff00e6;
+  `}
+
+  &:hover, &:active {
+    box-shadow: 0px 10px 39px 0px var(--card-shadow);
+  }
+
+  &:hover {
+    cursor: grab;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+`
+
+export const SCardContainerGhost = styled.div`
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 220px;
+  height: 130px;
+  background-color: rgba(148, 166, 190, 0.1);
+  border-radius: 10px;
+  border: 1px dashed #94a6be;
+  box-sizing: border-box;
+  pointer-events: none;
+`
+
+export const SCardContainerGhostColumnEnd = styled.div`
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 220px;
+  height: 130px;
+  background-color: transparent;
+  border-radius: 10px;
+  border: 1px dashed #94a6be;
+  box-sizing: border-box;
+  pointer-events: none;
 `

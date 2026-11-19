@@ -1,23 +1,31 @@
-import Content from "../Content/Content.jsx";
-import SContainer from "../Global/Container.styled.js";
-import {SMain,SMainBlock,SMainContent} from './Main.styled.js';
-
+import { Header } from "../header/Header";
+import { Content } from "../content/Content";
+import { SWrapper, SMock, SMessage } from "./Main.styled";
+import { Button } from "../button/Button";
+import { Link } from "react-router-dom";
+import { TasksContext } from "../../context/TasksContext";
 import { useContext } from "react";
-import { TaskContext } from "../../context/ContextAPI.js";
 
 
-function Main(){
-    const { tasks, loading, error } = useContext(TaskContext);
-    return(
-        <SMain>
-            <SContainer>
-                <SMainBlock>
-                    <SMainContent>
-                            <Content loading={loading} tasks={tasks} error={error}/>
-                    </SMainContent>
-                </SMainBlock>
-            </SContainer>
-        </SMain>
-    );
+export const Main = () => {
+  const {
+    tasks,
+    isLoading
+  } = useContext(TasksContext);
+
+  return (
+    <SWrapper>
+      <Header />
+      {!isLoading && !tasks.length ?
+        <SMock>
+          <SMessage>У вас пока нет задач &#128123;</SMessage>
+          <Link to="/card/add">
+            <Button width="212px" type="primary" text="Создать мою первую задачу" disabled={false}>
+            </Button>
+          </Link>
+        </SMock>
+        :
+        <Content />}
+    </SWrapper>
+  )
 }
-export default Main;

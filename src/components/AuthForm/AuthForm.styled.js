@@ -1,106 +1,81 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-export const LogWrapper = styled.div`
+
+export const SPageBackground = styled.div`
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    `;
+
+export const SWrapper = styled.div`
+  width: 368px;
+  background-color: var(--bg-secondary);
+  border: 0.7px solid var(--borders);
+  border-radius: 10px;
+  padding: 50px 60px;
+  box-shadow: 0px 4px 67px -12px #00000021;
   display: flex;
   justify-content: center;
-  align-items: center;
-  max-width: 100%;
-  width: 100vw;
-  min-height: 100vh;
-  overflow: hidden;
-  background: rgba(234, 238, 246, 1);
-`;
-
-export const LogBox = styled.div`
-  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 
-  width: fit-content;
-  box-sizing: border-box;
-  border: 0.7px solid rgba(212, 219, 229, 1);
-  border-radius: 10px;
-  box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
-  background: rgba(255, 255, 255, 1);
-  padding: 50px 60px;
 `;
 
-export const LogForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  width: 248px;
+export const STitle = styled.p`
+  font-size: 20px;
+  font-weight: 700;
 `;
 
-export const FormLinks = styled.div`
-  text-align: center;
-  & p {
-    margin: 0;
-    /* color: rgba(148, 166, 190, 0.4); */
-     color: rgba(39, 43, 49, 0.4);
-
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 16px;
-    text-align: center;
-  }
-  & a {
-    color: rgba(42, 48, 54, 0.4);
-    font-family: Roboto;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 16px;
-    text-align: center;
-  }
+export const SForm = styled.form`
 `;
 
-export const LogInputBox = styled.div`
+export const SInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 7px;
-  width: -webkit-fill-available;
+  margin-bottom: 7px;
 `;
 
-export const LogTitle = styled.div`
-  color: rgba(0, 0, 0, 1);
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 23px;
-  letter-spacing: -3%;
-  text-align: center;
-  margin: 0;
+export const SFooterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 150%;
+  margin-top: 20px;
 `;
 
-export const LogInput = styled.input`
-  box-sizing: border-box;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
-  border-radius: 8px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 10px;
-
-  color: rgba(148, 166, 190, 1);
-  font-family: Roboto;
+export const SFooterText = styled.p`
   font-size: 14px;
   font-weight: 400;
-  line-height: 16px;
-  text-align: left;
+  color: rgba(148, 166, 190, 0.4); 
 `;
 
-export const LogButton = styled.button`
-  border-radius: 4px;
-  background: rgba(86, 94, 239, 1);
-  border: none;
-  width: -webkit-fill-available;
-  padding-top: 5px;
-  padding-bottom: 5px;
-
-  color: rgba(255, 255, 255, 1);
-  font-family: Roboto;
+export const SFooterLink = styled(Link)`
   font-size: 14px;
-  font-weight: 500;
-  line-height: 16px;
+  font-weight: 400;
+  text-decoration: underline;
+  color: rgba(148, 166, 190, 0.4);
+  cursor: pointer;
+`;
+
+export const SErrorMessageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 20px;
+`;
+
+export const SErrorMessageText = styled.p`
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #F84D4D;
   text-align: center;
+  line-height: 150%;
 `;

@@ -1,170 +1,136 @@
-import {
-  SPopNewCard,
-  SPopNewCardContainer,
-  SPopNewCardBlock,
-  SPopNewCardContent,
-  SPopNewCardTtl,
-} from "../PopNewCard/PopNewCard.styled";
-import Calendar from "./Calendar/Calendar";
-import { Link } from "react-router-dom";
+import { Calendar } from "../../calendar/Calendar";
+import { SWrapper, SContainer, SBlock, SContent, STitle, SXButton, SNewCardWrapper, SFormNewCard, SFormBlock, SFormTitle, SFormInput, SFormDescribe, SCategoriesWrapper, SCategoriesTitle, SCategoriesThemesWrapper, SCategoriesThemeContainerOrange, SCategoriesThemeOrange, SCategoriesThemeContainerGreen, SCategoriesThemeGreen, SCategoriesThemeContainerPurple, SCategoriesThemePurple, BSButtonWrapper } from "./PopNewCard.styled";
+import { Button } from "../../button/Button";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { TasksContext } from "../../../context/TasksContext";
+import { toast } from 'react-toastify';
 
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
-function PopNewCard({ error, loading, onCreate }) {
-
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    topic: "",
-    date: "",
-  });
+export const PopNewCard = () => {
+  const {
+    addTask,
+    token,
+    selectedDate,
+    updateSelectedDate,
+    error,
+    setError
+  } = useContext(TasksContext);
 
   const navigate = useNavigate();
 
-  const handleCreate = () => {
-    const newTaskData = {
-      title: formData.title,
-      topic: formData.topic,
-      description: formData.description,
-      date: formData.date
-        ? new Date(formData.date).toISOString()
-        : new Date().toISOString(),
-      status: "Без статуса",
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
+
+  const currentDate = new Date().toISOString();
+
+  const [title, setTitle] = useState("");
+  const [topic, setTopic] = useState("");
+  const [description, setDescription] = useState("");
+  const [isCategorySelected, setIsCategorySelected] = useState("");
+
+
+  const onSelectCategory = (categoryName) => {
+    setTopic(categoryName);
+    setIsCategorySelected(categoryName);
+  };
+
+  const handleCreateTask = async () => {
+    if (!description.trim()) {
+      toast.error("Описание задачи не может быть пустым");
+      return;
     };
-    onCreate(newTaskData);
+
+    try {
+      await addTask({
+        newTask: {
+          title: title.trim() || "Новая задача",
+          topic: topic || "Research",
+          status: "Без статуса",
+          description: description,
+          date: selectedDate?.toISOString() || currentDate,
+        }
+      });
+
+      setTitle("");
+      setDescription("");
+      setTopic("");
+      updateSelectedDate(null);
+
+      navigate("/");
+    } catch (err) {
+      setError("Ошибка при создании задачи");
+    }
   };
 
-  const handleDateChange = (newDate) => {
-    setFormData((prev) => ({
-      ...prev,
-      date: newDate,
-    }));
-  };
 
-  const handleClose = () => {
-    navigate("/");
-  };
+  return token ? (
+    <SWrapper>
+      <SContainer>
+        <SBlock>
+          <SContent>
+            <STitle>Создание задачи</STitle>
+            <Link to="/">
+              <SXButton href="#">&#10006;</SXButton>
+            </Link>
+            <SNewCardWrapper>
+              <SFormNewCard>
 
-  if (loading) {
-    return (
-      <SPopNewCard id="popNewCard">
-        <div className="pop-new-card__container">
-          <div className="pop-new-card__block">
-            <div className="pop-new-card__content">
-              <div>Загрузка...</div>
-            </div>
-          </div>
-        </div>
-      </SPopNewCard>
-    );
-  }
+                <SFormBlock>
+                  <SFormTitle htmlFor="formTitle">Название задачи</SFormTitle>
+                  <SFormInput
+                    onChange={(event) => {
+                      setTitle(event.target.value)
+                    }}
+                    value={title} type="text" name="name" id="formTitle" placeholder="Введите название задачи..." autoFocus />
+                </SFormBlock>
 
-  if (error) {
-    return (
-      <SPopNewCard id="popNewCard">
-        <div className="pop-new-card__container">
-          <div className="pop-new-card__block">
-            <div className="pop-new-card__content">
-              <div>
-                Ошибка:{" "}
-                {`Поля "Название задачи", "Описание задачи", "Категория" и "Срок исполнения" должны быть заполнены`}
-              </div>
-              <button onClick={handleClose}>Закрыть</button>
-            </div>
-          </div>
-        </div>
-      </SPopNewCard>
-    );
-  }
- 
-  return (
-    <>
-    <SPopNewCard id="popNewCard">
-          <SPopNewCardContainer>
-            <SPopNewCardBlock>
-              <SPopNewCardContent>
-                <SPopNewCardTtl>Создание задачи</SPopNewCardTtl>
-                  <Link to={'/'}className="pop-new-card__close">
-                    &#10006;
-                  </Link>
-                <div className="pop-new-card__wrap">
-                  <form
-                    className="pop-new-card__form form-new"
-                    id="formNewCard"
-                    action="#"
-                  >
-                    <div className="form-new__block">
-                      <label htmlFor="formTitle" className="subttl">
-                        Название задачи
-                      </label>
-                      <input
-                        className="form-new__input"
-                        type="text"
-                        name="name"
-                        id="formTitle"
-                        placeholder="Введите название задачи..."
-                        autoFocus
-                        value={formData.title}
-                        onChange={(e) =>
-                            setFormData({ ...formData, title: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="form-new__block">
-                      <label htmlFor="textArea" className="subttl">
-                        Описание задачи
-                      </label>
-                      <textarea
-                        className="form-new__area"
-                        name="text"
-                        id="textArea"
-                        placeholder="Введите описание задачи..."
-                        value={formData.description}
-                        onChange={(e) =>
-                              setFormData({ ...formData, description: e.target.value })
-                        }
-                      ></textarea>
-                    </div>
-                  </form>
-                  <Calendar
-                      selectedDate={formData.date}
-                      onDateChange={handleDateChange}/>
-                </div>
-                <div className="pop-new-card__categories categories">
-                    <p className="categories__p subttl">Категория</p>
+                <SFormBlock>
+                  <SFormTitle htmlFor="textArea">Описание задачи</SFormTitle>
+                  <SFormDescribe
+                    onChange={(event) => {
+                      setDescription(event.target.value)
+                    }}
+                    value={description} name="text" id="textArea" placeholder="Введите описание задачи..."></SFormDescribe>
+                </SFormBlock>
 
-                    <div className="categories__themes">
-                      {[
-                        { name: "Web Design", class: "_orange" },
-                        { name: "Research", class: "_green" },
-                        { name: "Copywriting", class: "_purple" },
-                      ].map((category) => (
-                        <div
-                          key={category.name}
-                          className={`categories__theme ${category.class} ${
-                            formData.topic === category.name ? "_active-category" : ""
-                          }`}
-                          onClick={() =>
-                            setFormData({ ...formData, topic: category.name })
-                          }
-                          style={{ cursor: "pointer" }}
-                        >
-                          <p className={category.class}>{category.name}</p>
-                        </div>
-                      ))}
-                    </div>
-                </div>
-                <button className="form-new__create _hover01" 
-                        id="btnCreate"
-                        onClick={handleCreate}>
-                  Создать задачу
-                </button>
-              </SPopNewCardContent>
-            </SPopNewCardBlock>
-          </SPopNewCardContainer>
-        </SPopNewCard>
-        </>
-  );
-}
-export default PopNewCard;
+              </SFormNewCard>
+              <Calendar isEditTask={true} />
+            </SNewCardWrapper>
+            <SCategoriesWrapper>
+              <SCategoriesTitle>Категория</SCategoriesTitle>
+              <SCategoriesThemesWrapper>
+                <SCategoriesThemeContainerOrange
+                  onClick={(e) => onSelectCategory(e.target.textContent)}
+                  $isCategorySelected={isCategorySelected}
+                >
+                  <SCategoriesThemeOrange>Web Design</SCategoriesThemeOrange>
+                </SCategoriesThemeContainerOrange>
+                <SCategoriesThemeContainerGreen
+                  onClick={(e) => onSelectCategory(e.target.textContent)}
+                  $isCategorySelected={isCategorySelected}
+                >
+                  <SCategoriesThemeGreen>Research</SCategoriesThemeGreen>
+                </SCategoriesThemeContainerGreen>
+                <SCategoriesThemeContainerPurple
+                  onClick={(e) => onSelectCategory(e.target.textContent)}
+                  $isCategorySelected={isCategorySelected}
+                >
+                  <SCategoriesThemePurple>Copywriting</SCategoriesThemePurple>
+                </SCategoriesThemeContainerPurple>
+              </SCategoriesThemesWrapper>
+            </SCategoriesWrapper>
+          </SContent>
+          <BSButtonWrapper>
+            <Button
+              onClick={handleCreateTask}
+              id="btnCreate" width="132px" text="Создать задачу" type="primary" disabled={false}></Button>
+          </BSButtonWrapper>
+        </SBlock>
+      </SContainer>
+    </SWrapper >
+  ) : null;
+};

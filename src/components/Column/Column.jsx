@@ -1,51 +1,74 @@
-// import {cardList} from '../../../data.js';
-import Card from '../Card/Card.jsx';
-import CardLoader from '../CardLoader/CardLoader.jsx';
-import {
-        SCards,
-        SColumn,
-        SColumnBlockTitle,
-        SColumnTitles} from '../Column/Column.styled.js';
+import { useContext } from "react";
+import { Card } from "../card/Card";
+import { Loader } from "../loader/Loader";
+import { SColumn, SColumnTitleContainer, SColumnTitle, SCards, SCardItem, SGhostContainer } from "./Column.styled";
+import { format } from "date-fns";
+import { TasksContext } from "../../context/TasksContext";
+import { SCardContainerGhostColumnEnd } from "../card/Card.styled";
 
-function Column({ title, tasks, loading }){
-    const safeTasks = tasks || [];
-    const filteredTasks = safeTasks.filter((task) => {
-    const taskStatus = task.status?.toLowerCase().trim();
-    const columnTitle = title.toLowerCase().trim();
-    return taskStatus === columnTitle;
-  });
-    
-    return(
-        
-                <SColumn>
-                    <SColumnBlockTitle>
-                        <SColumnTitles>{title}</SColumnTitles>
-                    </SColumnBlockTitle>
-                    <SCards>
-                        {
-                         filteredTasks.map((task) => (
-                           loading ? (<CardLoader key={task._id}/>):
-                            (<Card 
-                                key={task._id}
-                                item={{
-                                    id: task._id,
-                                    topic: task.topic,
-                                    title: task.title,
-                                    date: new Date(task.date).toLocaleDateString("ru-RU"),
-                                    status: task.status,
-                                    description: task.description
-                                }} 
-                            />)
-                            ))
-                        }
-                        {filteredTasks.length === 0 && !loading && (
-                            <div style={{ padding: "10px", color: "#94A6BE", textAlign: "start" }}>
-                                Нет задач
-                            </div>
-                        )}
-                    </SCards>
-                </SColumn>
-         
-    );
+export const Column = ({ title, cardsByStatus, onMoveCard }) => {
+  const { isLoading, isDraggable, draggableCardId, setIsDraggable, setDraggableCardId,
+    dragStartColumn
+  } = useContext(TasksContext);
+
+  // проверить, исходная колонка или нет
+  const isStartColumn = dragStartColumn === title;
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const cardId = e.dataTransfer.getData('text/plain');
+    onMoveCard(cardId, title);
+    setIsDraggable(false);
+    setDraggableCardId(null);
+  };
+
+
+  return (
+    <SColumn>
+      <SColumnTitleContainer>
+        <SColumnTitle>{title}</SColumnTitle>
+      </SColumnTitleContainer>
+      <SCards
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            {/* карточки */}
+            {cardsByStatus[title].map((card) => (
+              <SCardItem key={card._id}>
+                <Card
+                  id={card._id}
+                  topic={card.topic}
+                  title={card.title}
+                  date={format(card.date, "dd.MM.yy")}
+                  columnTitle={title}
+                  isDragging={draggableCardId === card._id}
+                />
+                {/* призрак на месте перетаскиваемой карточки */}
+                {isDraggable &&
+                  isStartColumn &&
+                  draggableCardId === card._id && (
+                    <SCardContainerGhostColumnEnd />
+                  )}
+              </SCardItem>
+            ))}
+
+            {/* призрак в конце всех колонок, кроме исходной */}
+            {isDraggable && !isStartColumn && (
+              <SGhostContainer>
+                <SCardContainerGhostColumnEnd />
+              </SGhostContainer>
+            )}
+          </>
+        )
+        }
+      </SCards>
+    </SColumn>
+  )
 }
-export default Column;

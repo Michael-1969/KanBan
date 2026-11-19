@@ -1,59 +1,85 @@
-import { useState } from "react";
-// import PopUpUserSet from "../popups/PopUpUserSet/PopUpUserSet.jsx";
-import SContainer from "../Global/Container.styled.js";
+import { useState, useEffect, useRef, useContext } from "react";
+import { PopUser } from "../popups/popUser/PopUser";
+import { SHeader, SHeaderContainer, SHeaderBlock, SHeaderLogo, SHeaderLogoLight, SHeaderLogoDark, SHeaderNavigation, SButtonWrapper, SHeaderLink, SPopUserWrapper } from "./Header.styled";
+import { Button } from "../button/Button";
 import { Link } from "react-router-dom";
-import { useRef } from 'react';
+import { AuthContext } from "../../context/AuthContext";
+import { ThemeContext } from "../../context/ThemeContext";
 
-import {
-  SHeader,
-  SHeaderBlock,
-  SHeaderLogo,
-  SLogoImg,
-  SLink,
-  SHeaderNav,
-  SHeaderBtnMain,
-  SHeaderBtnSpan,
-  SHeaderUserLink,
-} from "../Header/Header.styled.js";
 
-import PopUpUserSet from "../popups/PopUpUserSet/PopUpUserSet.jsx";
+export const Header = () => {
+  const { currentTheme } = useContext(ThemeContext)
 
-const Header = () => {
-  const [showModal, setShowModal] = useState(false);
-  const userInfoRef = useRef(JSON.parse(localStorage.getItem('userInfo')));
-  
-  const toggleModal = () => setShowModal(!showModal);
+  const [isPopUserOpen, setIsPopUserOpen] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+
+  const popUserRef = useRef(null);
+  const headerLinkRef = useRef(null);
+
+  const { user } = useContext(AuthContext);
+  const userName = user.name;
+
+
+  const handleClick = () => {
+    setIsPopUserOpen(!isPopUserOpen);
+    setIsActive(!isActive);
+  };
+
+  const handleOutsideClick = (event) => {
+    if (popUserRef.current && !popUserRef.current.contains(event.target) && headerLinkRef.current && !headerLinkRef.current.contains(event.target)) {
+      setIsPopUserOpen(false); // закрыть PopUser, если клик вне его 
+      setIsActive(false);
+    }
+  };
+
+  useEffect(() => {
+    // добавить обработчик клика вне окна
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      // удалить обработчик клика вне окна при размонтировании компонента
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
 
   return (
     <SHeader>
-      <SContainer>
+      <SHeaderContainer>
         <SHeaderBlock>
           <SHeaderLogo>
-            <SLink href="" target="_self">
-              <SLogoImg src="images/logo.png" alt="logo" />
-            </SLink>
-          </SHeaderLogo>
-          <SHeaderLogo>
-            <SLink href="" target="_self">
-              <SLogoImg src="images/logo_dark.png" alt="logo" />
-            </SLink>
+            <a href="/" target="_self">
+              {currentTheme === 'light' ? (
+                <SHeaderLogoLight src="/images/logo.png" alt="logo" />
+              ) : (
+                <SHeaderLogoDark src="/images/logo_dark.png" alt="logo" />
+              )}
+            </a>
           </SHeaderLogo>
 
-          <SHeaderNav>
-            <Link to={"/card/add"}> 
-              <SHeaderBtnMain id="btnMainNew">
-                {/* <SHeaderBtnLink href="#popNewCard"> */}
-                <SHeaderBtnSpan>Создать новую задачу</SHeaderBtnSpan>
-              </SHeaderBtnMain>
-            </Link>
-            <SHeaderUserLink href="#user-set-target" onClick={toggleModal}>
-              {userInfoRef.current.name}
-            </SHeaderUserLink>
-            {showModal && <PopUpUserSet ref={userInfoRef} onCloseButtonClick={toggleModal} />}
-          </SHeaderNav>
+          <SHeaderNavigation>
+            <SButtonWrapper>
+              <Link to="/card/add">
+                <Button href="#popNewCard" width="178px" type="primary" text="Создать новую задачу" disabled={false}>
+                </Button>
+              </Link>
+            </SButtonWrapper>
+            <SHeaderLink
+              href="#user-set-target"
+              onClick={handleClick}
+              $isActive={isActive}
+              ref={headerLinkRef}
+            >
+              {userName}
+            </SHeaderLink>
+            <SPopUserWrapper
+              ref={popUserRef}
+              $isActive={isActive}
+            >
+              <PopUser setIsPopUserOpen={setIsPopUserOpen} setIsActive={setIsActive}/>
+            </SPopUserWrapper>
+          </SHeaderNavigation>
         </SHeaderBlock>
-      </SContainer>
-    </SHeader>
+      </SHeaderContainer>
+    </SHeader >
   );
 };
-export default Header;

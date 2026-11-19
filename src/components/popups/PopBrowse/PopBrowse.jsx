@@ -1,309 +1,204 @@
-import { Link, useNavigate } from "react-router-dom";
-import Calendar from "./Calendar/Calendar";
-import {SPopBrowse,
-        SPopBrowseContainer,
-        SPopBrowseContent,
-        SPopBrowseBlock,
-        SHiddenCategories} from '../PopBrowse/PopBrowse.styled';
+import { SWrapper, SContainer, SBlock, SContent, STopBlock, STitle, SCategoriesThemeTop, SCategoryThemeTop, SStatusesWrapper, SStatusesTitle, SStatusesContent, SStatus, SStatusTheme, SFormWrapper, SForm, SFormBlock, SFormLabel, SFormText, SButtonsWrapper, SButtonsGroup, SStyledLink } from "./PopBrowse.styled";
+import { Calendar } from "../../calendar/Calendar";
+import { Button } from "../../button/Button";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { TasksContext } from "../../../context/TasksContext";
+import { statuses } from "../../../data";
 
-import {SCardTheme,SCardThemeTopic} from '../../Card/Card.styled';
-// import {cardList} from '../../../../data.js'
-import { useState, useEffect } from "react"
 
- 
-
-function PopBrowse({task, onDelete, onSave}) {
-
+export const PopBrowse = () => {
   const navigate = useNavigate();
-  const [isEdit, setIsEdit] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    status: "",
-    topic: "",
-    date: "",
-  });
+
+  const {
+    tasks,
+    token,
+    editTasks,
+    deleteTasks,
+    updateSelectedDate
+  } = useContext(TasksContext);
+
+  const [isEditTask, setIsEditTask] = useState(false);
+
+  const { id } = useParams();
+
+  const card = tasks.find((card) => card._id === id);
+  const taskCategory = card?.topic;
+  const initialTaskStatus = card?.status;
+  const initialTaskDescription = card?.description;
+  const initialTaskDate = card?.date;
+  const initialTaskDateToDisplay = new Date(initialTaskDate).toLocaleDateString('ru-RU', { year: "2-digit", month: "2-digit", day: "2-digit" });
+
+  const [currentTaskStatus, setCurrentTaskStatus] = useState(initialTaskStatus);
+  const [currentTaskDescription, setCurrentTaskDescription] = useState(initialTaskDescription || "");
+  const [currentTaskDate, setCurrentTaskDate] = useState(initialTaskDate);
+
 
   useEffect(() => {
-    if (task && task._id) {
-      setFormData({
-        title: task.title || "",
-        description: task.description || "",
-        status: task.status || "",
-        topic: task.topic || "",
-        date: task.date || "",
-      });
+    if (!token) {
+      navigate('/login');
     }
-  }, [task]);
+  });
 
 
-  const handleClose = () => {
-    navigate('/');
-  }
-
-  const handleDeleteClick = () => {
-    setShowDeleteConfirm(true);
-  }
-
-  const handleConfirmDelete = () => {
-    onDelete();
-    setShowDeleteConfirm(false);
-  }
-
-  const handleCancelDelete = () => {
-    setShowDeleteConfirm(false);
-  }
-
-  
-
-  const DeleteConfirmation = () => {
-    return (
-      <SPopBrowse id="popBrowse">
-        <div className="pop-browse__container">
-          <div className="pop-browse__block" style={{display: "flex", flexDirection: "column", gap: "15px", alignItems:"center"}}>
-            <div style={{ display: "flex", flexDirection: "row", gap: "40px", fontSize:"18px"}}>Удалить задачу?</div>
-            <div style={{display: "flex", gap: "50px"}}>
-              <button style={{padding: "7px 20px"}} onClick={handleConfirmDelete} className="btn-browse__delete _btn-bor _hover03">Да, удалить</button>
-              <button style={{padding: "7px 20px"}} onClick={handleCancelDelete} className="btn-browse__delete _btn-bor _hover03">Отмена</button>
-            </div>
-          </div>
-        </div>
-      </SPopBrowse>
-    );
-  }
-  if (showDeleteConfirm) {
-    return <DeleteConfirmation />;
-  }
-
-  const handleEditClick = () => {
-    setIsEdit(true);
-  }
-
-  const handleCancelEdit = () => {
-    setIsEdit(false);
-  }
-
-  const handleSave = () => {
-    const updatedData = {
-      title: formData.title,
-      topic: formData.topic,
-      status: formData.status,
-      description: formData.description,
-      date: new Date(formData.date).toISOString(),
-    };
-    onSave(updatedData);
+  const onEditTask = () => {
+    setIsEditTask(true);
   };
 
-  const handleDateChange = (newDate) => {
-    setFormData((prev) => ({
-      ...prev,
-      date: newDate,
-    }));
+  const onSelectTaskNewStatus = (newStatus) => {
+    setCurrentTaskStatus(newStatus);
   };
 
-  // if (loading) {
-  //   return (
-  //     <SPopBrowse id="popBrowse">
-  //       <div className="pop-browse__container">
-  //         <div className="pop-browse__block">
-  //           <div>Загрузка...</div>
-  //         </div>
-  //       </div>
-  //     </SPopBrowse>
-  //   );
-  // }
+  const onSelectTaskNewDate = (newDate) => {
+    setCurrentTaskDate(newDate);
+    updateSelectedDate(newDate);
+  };
 
-  // if (error) {
-  //   return (
-  //     <SPopBrowse id="popBrowse">
-  //       <div className="pop-browse__container">
-  //         <div className="pop-browse__block">
-  //           <div>Ошибка: {error}</div>
-  //           <button onClick={handleClose}>Закрыть</button>
-  //         </div>
-  //       </div>
-  //     </SPopBrowse>
-  //   );
-  // }
+  const onSaveTask = async () => {
+    try {
+      const updatedTask = {
+        ...card,
+        description: currentTaskDescription,
+        status: currentTaskStatus,
+        date: currentTaskDate
+      };
 
-    return (
-        <SPopBrowse id="popBrowse">
-          <SPopBrowseContainer>
-            <SPopBrowseBlock>
-              <SPopBrowseContent className="pop-browse__content">
-                <div className="pop-browse__top-block">
-                  <h3 className="pop-browse__ttl">{task.title}</h3>
-                  
-                    <SCardTheme topic={task.topic}>
-                      <SCardThemeTopic style={{task: '0px 5px'}} topic={task.topic}>{task.topic}</SCardThemeTopic>
-                    </SCardTheme>
-                </div>
+      await editTasks(token, id, updatedTask);
 
-                <div className="pop-browse__status status">
-                  <p className="status__p subttl">Статус</p>
-                   {!isEdit &&
-                      <div className="status__themes">
-                        <div className={`status__theme ${task.status ? '_gray' : '_hide'}`}>
-                          <p>{task.status}</p>
-                        </div>
-                      </div>
-                   }
-                   {isEdit && 
-                    <div className="status__themes">
-                    {[
-                      "Без статуса",
-                      "Нужно сделать",
-                      "В работе",
-                      "Тестирование",
-                      "Готово",
-                    ].map((status) => (
-                      <div
-                        style={{ cursor: "pointer" }}
-                        key={status}
-                        className={`status__theme ${
-                          formData.status === status ? "_gray" : ""
-                        }`}
-                        onClick={() => setFormData({ ...formData, status })}
-                      >
-                        <p
-                          style={{
-                            color: formData.status === status ? "white" : "#94A6BE",
-                          }}
-                        >
-                          {status}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                  }
-                </div>
-                
-                <div className="pop-browse__wrap">
-                  <form
-                    className="pop-browse__form form-browse"
-                    id="formBrowseCard"
-                    action="#"
+      navigate("/");
+    } catch (error) {
+      console.error("Ошибка при сохранении отдерактированной задачи:", error.message);
+    }
+  };
+
+  const onDeleteTask = async () => {
+    try {
+      await deleteTasks(token, id);
+
+      navigate("/");
+    }
+    catch (error) {
+      console.error("Ошибка при удалении задачи:", error.message);
+    }
+  };
+
+  const onCancel = () => {
+    setCurrentTaskStatus(initialTaskStatus);
+    setCurrentTaskDescription(initialTaskDescription);
+    setCurrentTaskDate(initialTaskDate);
+  };
+
+
+  return (
+    <SWrapper id="popBrowse">
+      <SContainer>
+        <SBlock>
+          <SContent>
+            <STopBlock>
+              <STitle>{card?.title}</STitle>
+
+              <SCategoriesThemeTop $taskCategory={taskCategory}>
+                <SCategoryThemeTop>{card?.topic}</SCategoryThemeTop>
+              </SCategoriesThemeTop>
+
+            </STopBlock>
+            <SStatusesWrapper>
+              <SStatusesTitle>Статус</SStatusesTitle>
+              {
+                isEditTask
+                  ?
+                  <SStatusesContent>
+                    {
+                      statuses.map((status) => {
+                        return (
+                          <SStatus
+                            key={status}
+                            onClick={(e) => onSelectTaskNewStatus(e.target.textContent)}
+                            $isStatusSelected={currentTaskStatus === status}
+                            style={{ cursor: "pointer" }}
+                          >
+                            <SStatusTheme $isStatusSelected={currentTaskStatus === status}>{status}</SStatusTheme>
+                          </SStatus>
+                        )
+                      })
+                    }
+                  </SStatusesContent>
+
+                  :
+                  <SStatusesContent>
+                    <SStatus $isStatusSelected={currentTaskStatus === card?.status}>
+                      <SStatusTheme $isStatusSelected={currentTaskStatus === card?.status}>{card?.status}</SStatusTheme>
+                    </SStatus>
+                  </SStatusesContent>
+              }
+            </SStatusesWrapper>
+
+            <SFormWrapper>
+              <SForm className="form-browse" id="formBrowseCard" action="#">
+                <SFormBlock>
+                  <SFormLabel htmlFor="textArea01">Описание задачи</SFormLabel>
+                  <SFormText
+                    $isEditTask={isEditTask}
+                    name="text" id="textArea01"
+                    readOnly={!isEditTask}
+                    value={currentTaskDescription}
+                    placeholder="Введите описание задачи..."
+                    onChange={(e) => setCurrentTaskDescription(e.target.value)}
                   >
-                    <div className="form-browse__block">
-                      <label htmlFor="textArea01" className="subttl">
-                        Описание задачи
-                      </label>
-                      {!isEdit &&
-                          <textarea
-                            className="form-browse__area"
-                            name="text"
-                            id="textArea01"
-                            readOnly
-                            placeholder="Введите описание задачи..."
-                          ></textarea>
-                      }
-                      {isEdit &&
-                        <textarea
-                        className="form-browse__area"
-                        name="text"
-                        id="textArea01"
-                        value={formData.description}
-                        onChange={(e) =>
-                          setFormData({ ...formData, description: e.target.value })
-                        }
-                        placeholder="Введите описание задачи..."
-                      ></textarea>
-                      }
-                    </div>
-                  </form>
-                  {!isEdit &&
-                    <Calendar selectedDate={task.date}
-                    onDateChange={() => {}}/>
-                  }
-               
-                  {isEdit &&
-                    <Calendar
-                    selectedDate={formData.date}
-                    onDateChange={handleDateChange}
-                  />
-                  }
-                </div>
+                  </SFormText>
+                </SFormBlock>
+              </SForm>
 
+              <Calendar
+                isEditTask={isEditTask}
+                initialTaskDateToDisplay={initialTaskDateToDisplay}
+                currentTaskDate={currentTaskDate}
+                setCurrentTaskDate={isEditTask ? setCurrentTaskDate : undefined}
+                onSelectTaskNewDate={isEditTask ? onSelectTaskNewDate : undefined}
+              />
 
-                <SHiddenCategories className="theme-down__categories theme-down">
-                  <p className="categories__p subttl">Категория</p>
-                  <div className="categories__theme _orange _active-category">
-                     <p className="_orange">{task.topic}</p>
-                  </div>
-                </SHiddenCategories>
-                 {!isEdit &&
-                  <div className="pop-browse__btn-browse ">
-                  <div className="btn-group">
+            </SFormWrapper>
 
-                  {/* <Link to={`/card/${task._id}/edit`} 
-                  state={{ task }}
-                  target="_self"> */}
-                    <button onClick={handleEditClick} className="btn-browse__edit _btn-bor _hover03">
-                        Редактировать задачу
-                      </button>
-                  {/* </Link> */}
+            {
+              isEditTask
+                ?
+                <SButtonsWrapper>
+                  <SButtonsGroup>
+                    <Button
+                      onClick={onSaveTask}
+                      text="Сохранить" type="primary" width="99px" disabled={false}><a href="#"></a></Button>
+                    <Button
+                      onClick={onCancel}
+                      text="Отменить" type="secondary" width="93px" disabled={false}><a href="#"></a></Button>
+                    <Button
+                      onClick={onDeleteTask}
+                      id="btnDelete" text="Удалить задачу" type="secondary" width="131px" disabled={false}>
+                      <a href="#"></a>
+                    </Button>
+                  </SButtonsGroup>
+                  <Link to="/">
+                    <Button text="Закрыть" type="primary" width="86px" disabled={false}><a href="#"></a></Button>
+                  </Link>
+                </SButtonsWrapper>
+                :
+                <SButtonsWrapper>
+                  <SButtonsGroup>
+                    <Button
+                      onClick={onEditTask}
+                      text="Редактировать задачу" type="secondary" width="176px" disabled={false}><a href="#"></a></Button>
+                    <Button
+                      onClick={onDeleteTask}
+                      text="Удалить задачу" type="secondary" width="131px" disabled={false}><a href="#"></a></Button>
+                  </SButtonsGroup>
+                  <SStyledLink to="/">
+                    <Button text="Закрыть" type="primary" width="86px" disabled={false}><a href="#"></a></Button>
+                  </SStyledLink>
+                </SButtonsWrapper>
+            }
 
-                    <button onClick={handleDeleteClick} className="btn-browse__delete _btn-bor _hover03">
-                      Удалить задачу
-                    </button>
-                  </div>
-                  <button onClick={handleClose} className="btn-browse__close _btn-bg _hover01">
-                    Закрыть
-                  </button>
-                </div>
-                }
-                
-                {isEdit &&
-                  <div className="pop-browse__btn-edit">
-                  <div className="btn-group">
-                    <button
-                      onClick={handleSave}
-                      className="btn-edit__edit _btn-bg _hover01"
-                    >
-                      Сохранить
-                    </button>
-                    <button className="btn-edit__edit _btn-bor _hover03">
-                      Отменить
-                    </button>
-                    <button onClick={handleDeleteClick}
-                      className="btn-edit__delete _btn-bor _hover03"
-                      id="btnDelete"
-                    >
-                      Удалить задачу
-                    </button>
-                  </div>
-                  <button
-                    onClick={handleCancelEdit}
-                    className="btn-edit__close _btn-bg _hover01"
-                  >
-                    Закрыть
-                  </button>
-                </div>
-                }
-                
-                {/* <div className="pop-browse__btn-browse ">
-                  <div className="btn-group">
-                     <Link to={`/card/${task._id}/edit`} target="_self">
-                        <button className="btn-browse__edit _btn-bor _hover03">
-                          Редактировать задачу
-                        </button>
-                      </Link>
-
-                    <button onClick={handleDeleteClick} className="btn-browse__delete _btn-bor _hover03">
-                      <a href="#">Удалить задачу</a>
-                    </button>
-                  </div>
-                  <button onClick={handleClose} className="btn-browse__close _btn-bg _hover01">
-                    Закрыть
-                  </button>
-                </div> */}
-                    
-              </SPopBrowseContent>
-            </SPopBrowseBlock>
-          </SPopBrowseContainer>
-        </SPopBrowse>
-    )
-  }
-  
-  export default PopBrowse
+          </SContent>
+        </SBlock>
+      </SContainer>
+    </SWrapper>
+  );
+};

@@ -1,31 +1,58 @@
+import { statuses } from "../../data";
+import { Column } from "../column/Column";
+import { SContent, SContainer, SBlock, SData } from "./Content.styled";
+import { TasksContext } from "../../context/TasksContext";
+import { useContext } from "react";
+import { editTask } from "../../services/api";
 
-// import {cardList} from '../../../data.js';
-import Column from "../Column/Column.jsx";
-import Loader from "../Loader/Loader.jsx";
+
+export const Content = () => {
+  const {
+    tasks,
+    error,
+    updateTaskStatus,
+    token,
+  } = useContext(TasksContext);
+
+  const cardsByStatus = statuses.reduce((acc, status) => {
+    acc[status] = tasks.filter((task) => task.status === status);
+    return acc;
+  }, {});
 
 
-const Content = ({loading, tasks, error}) =>{
-    
-    const allColums = 
-              ["Без статуса", "Нужно сделать", "В работе", "Тестирование", "Готово",].map((title,indx) => {
-            
-             return (
-                      loading ? (<Loader key={indx} marginRight={30}/>) : (<Column title={title}  key={indx} tasks={tasks} loading={loading}/>)
-                    
-                )
-        });
-       
+  const onMoveCard = async (cardId, targetColumnTitle) => {
+    // проверить новый статус карточки
+    const currentCard = tasks.find(task => task._id === cardId);
 
-    return(
-        <>
-        {error && (
-            <div style={{ color: 'red', textAlign: 'center', padding: '20px' }}>
-              {error}
-            </div>
-          )}
-        {allColums}
-        </>
-    )
+    const updatedTask = {
+      ...currentCard,
+      status: targetColumnTitle
+    };
+
+    if (currentCard && currentCard.status !== targetColumnTitle) {
+      updateTaskStatus(cardId, targetColumnTitle);
+
+      await editTask(token, cardId, updatedTask)
+    }
+  };
+
+
+  return (
+    <SContent>
+      <p>{error}</p>
+      <SContainer>
+        <SBlock>
+          <SData>
+            {statuses.map((status) =>
+              <Column
+                key={status}
+                title={status}
+                cardsByStatus={cardsByStatus}
+                onMoveCard={onMoveCard}
+              />)}
+          </SData>
+        </SBlock>
+      </SContainer>
+    </SContent>
+  )
 }
-
-export default Content;

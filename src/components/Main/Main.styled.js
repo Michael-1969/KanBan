@@ -1,28 +1,29 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const SMain = styled.main`
-    width: 100%;
-    background-color: #EAEEF6;
-    height: 100vh;
+
+export const SWrapper = styled.div`
+  max-width: 100%;
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  background-color: #F1F1F1;
+  display: flex;
+  flex-direction: column;
+  `;
+
+export const SMock = styled.div`
+  color: var(--text-secondary);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-grow: 1;
 `;
 
-export const SMainBlock = styled.div`
-    width: 100%;
-    margin: 0 auto;
-    padding: 25px 0 49px;
-    @media ${({theme}) => theme.media.max1200}{
-        
-        width: 100%;
-        margin: 0 auto;
-        padding: 40px 0 64px;
-    } 
-    
+export const SMessage = styled.div`
 `;
-
-export const SMainContent = styled.div`
-    width: 100%;
-    display: flex;
-    @media ${({theme}) => theme.media.max1200}{
-        display: block;
-    }
-`

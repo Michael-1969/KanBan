@@ -1,167 +1,75 @@
-import { Link, useNavigate } from "react-router-dom";
+import { SPageBackground, SWrapper, STitle, SForm, SInputWrapper, SFooterWrapper, SFooterText, SFooterLink, SErrorMessageWrapper, SErrorMessageText } from "./AuthForm.styled";
+import { Input } from "../Input/Input";
+import { Button } from "../button/Button";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-import { useState,useContext} from "react";
-import { loginUser, registerUser } from "../../services/auth.js";
-import { AuthContext } from "../../context/ContextAPI";
 
-import {
-  LogWrapper,
-  LogBox,
-  LogTitle,
-  LogForm,
-  FormLinks,
-  LogInput,
-  LogInputBox,
-  LogButton,
-} from "./AuthForm.styled.js";
-
-const AuthForm = ({ isSignUp }) => {
+export const AuthForm = ({ isSignUp }) => {
   const navigate = useNavigate();
 
-  const {updateUserInfo} = useContext(AuthContext);
-  // console.log("updateUserInfo = ",updateUserInfo);
+  const {
+    handleChange, handleLogin,
+    formData, errors,
+    error,
+    resetError
+  } = useContext(AuthContext);
 
-  const [formData, setFormData] = useState({
-    name: '',
-    login: '',
-    password: '',
-  })
-
-  const [errors, setErrors] = useState({
-    name: false,
-    login: false,
-    password: false,
-  })
-
-  const [error, setError] = useState('');
-
-  const validateForm = () => {
-    const newErrors = {name: false, login: false, password: false,};
-    let isValid = true;
-
-    if(isSignUp && !formData.name.trim()) {
-      newErrors.name = true;
-      setError('Заполните все поля');
-
-      isValid = false;
-    }
-
-    if(!formData.login.trim()) {
-      newErrors.login = true;
-      setError('Заполните все поля');
-
-      isValid = false;
-    }
-
-    if(!formData.password.trim()) {
-      newErrors.password = true;
-      setError('Заполните все поля');
-
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
-  }
-
-  const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-    setErrors({...errors, [name]: false});
-    setError('');
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return;
+    const success = await handleLogin(isSignUp);
+    if (success) {
+      navigate("/");
     }
-    try {
-      const data = !isSignUp
-      ? await loginUser({login: formData.login, password: formData.password})
-      : await registerUser ({login: formData.login, password: formData.password, name: formData.name});
+  };
 
-      if (data) {
-        updateUserInfo(data);
-        localStorage.setItem('userInfo', JSON.stringify(data));
-        navigate('/');
-      }
-    } catch (err) {
-      setError (err.message);
-    }
-  }
-  
+
   return (
-      <LogWrapper>
-      <LogBox>
-        <LogTitle>{isSignUp ? "Регистрация" : "Вход"}</LogTitle>
-        {error && (
-            <div style={{ 
-              color: 'red', 
-              fontSize: '14px', 
-              textAlign: 'center',
-              marginBottom: '10px'
-            }}>
-              {error}
-          </div>
-        )}
-        <LogForm id="form" onSubmit={handleSubmit}>
-          <LogInputBox>
-            {isSignUp && (
-              <LogInput
-                $error={errors.name}
-                type="text"
-                name="name"
-                id="formname"
-                placeholder="Имя"
-                value={formData.name}
-                onChange={handleChange}
-              />
-            )}
-            <LogInput
-              $error={errors.login}
-              type="text"
-              name="login"
-              id="formlogin"
-              placeholder="Эл. почта"
-              value={formData.login}
-              onChange={handleChange}
-            />
-            <LogInput
-              $error={errors.password}
-              type="password"
-              name="password"
-              id="formpassword"
-              placeholder="Пароль"
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </LogInputBox>
+    <SPageBackground>
+      <SWrapper style={{ height: "329px" }}>
+        <STitle>{isSignUp ? "Регистрация" : "Вход"}</STitle>
+        <SForm id="form" onSubmit={handleSubmit}>
 
-          <LogButton>
-            {isSignUp ? "Зарегистрироваться" : "Войти"}
-          </LogButton>
+          <SInputWrapper>
+            {isSignUp && (<Input error={errors.name} type="text" placeholder="Имя" name="name" value={formData.name} onChange={handleChange} />)}
+            <Input error={errors.login} type="text" placeholder="Эл. почта" name="login" value={formData.login} onChange={handleChange} />
+            <Input error={errors.password} type="password" placeholder="Пароль" name="password" value={formData.password} onChange={handleChange} />
+          </SInputWrapper>
+
+          <SErrorMessageWrapper><SErrorMessageText>{error}</SErrorMessageText></SErrorMessageWrapper>
+
+          <Button text={isSignUp ? "Зарегистрироваться" : "Войти"} type="primary" disabled={error} />
 
           {!isSignUp && (
-            <FormLinks>
-              <p>Нужно зарегистрироваться?</p>
-              <Link to="/register" style={{textDecoration: "underline"}}>Регистрируйтесть здесь</Link>
-            </FormLinks>
+            <SFooterWrapper>
+              <SFooterText>Нужно зарегистрироваться?</SFooterText>
+              <SFooterLink
+                to="/registration"
+                onClick={resetError}
+              >
+                Регистрируйтесь здесь
+              </SFooterLink>
+            </SFooterWrapper>
           )}
-          {isSignUp && (
-            <FormLinks>
-              <p>
-                Уже есть аккаунт? <Link to="/login" style={{textDecoration: "underline"}}>Войдите здесь</Link>
-              </p>
-            </FormLinks>
-          )}
-        </LogForm>
-      </LogBox>
-    </LogWrapper>
-  );
-};
 
-export default AuthForm;
+          {isSignUp && (
+            <SFooterWrapper>
+              <SFooterText>
+                Уже есть аккаунт?
+                <SFooterLink
+                  to="/login"
+                  onClick={resetError}
+                >
+                  Войдите здесь
+                </SFooterLink>
+              </SFooterText>
+            </SFooterWrapper>
+          )}
+
+        </SForm>
+      </SWrapper>
+    </SPageBackground>
+  )
+}
