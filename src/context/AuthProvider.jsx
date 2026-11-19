@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     updateUserInfo(null);
     localStorage.removeItem("currentTheme");
     localStorage.removeItem("themeNameToSelect");

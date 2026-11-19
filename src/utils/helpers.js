@@ -1,4 +1,4 @@
-export const validateForm = (formData, isSignUp, setErrors, setError, setIsValid) => {
+export const validateForm = (formData, isSignUp, setErrors, setError) => {
   const requiredFieldsSignUp = ['name', 'login', 'password'];
   const requiredFieldsSignIn = ['login', 'password'];
   const newErrors = { name: "", login: "", password: "" };

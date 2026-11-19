@@ -62,7 +62,7 @@ export const PopNewCard = () => {
 
       navigate("/");
     } catch (err) {
-      setError("Ошибка при создании задачи");
+      setError("Ошибка при создании задачи",err);
     }
   };
 
